@@ -1,0 +1,84 @@
+# 构建结果和临时文件
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+ARM64/
+[Aa]rtifacts/
+Generated Files/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.log
+*.tlog
+*.tmp
+
+# 空目录
+Helpers/
+Models/
+Utils/
+
+# 避免多余的文档文件
+*_SUMMARY.md
+*_FIX.md
+*_PLAN.md
+ARCHITECTURE.md
+CHANGELOG.md
+CONTRIBUTING.md
+
+# 保留RuntimeDLLs目录中的所有文件
+!RuntimeDLLs/
+!RuntimeDLLs/**
+
+# Visual Studio 文件
+.vs/
+*.pidb
+*.svclog
+*.scc
+*.psess
+*.vsp
+*.vspx
+*.dotCover
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+_ReSharper*/
+*.ncrunch*
+.crunch*.local.xml
+nCrunchTemp_*
+ipch/
+*.aps
+*.ncb
+*.opendb
+*.opensdf
+*.cachefile
+*.VC.db
+*.VC.VC.opendb
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# 测试结果
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# 项目特定文件
+*.nuget.props
+*.nuget.targets
+
+# 发布文件
+**/Properties/launchSettings.json
+
+# 本地配置
+appsettings.Development.json
+appsettings.local.json
+local.settings.json
+
+# 其他
+.DS_Store
+Thumbs.db
+*.bak 

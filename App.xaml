@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="WinVault.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinVault">
+    <!-- 使用默认的WinUI 3主题，移除有问题的资源引用 -->
+</Application>

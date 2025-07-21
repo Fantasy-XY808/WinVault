@@ -1,0 +1,102 @@
+# ================================================================
+# WinVault - Git Attributes Configuration
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+# Author: WinVault Team
+# Created: 2024
+# Purpose: Git file handling and language detection configuration
+# ================================================================
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Source code files
+*.cs text diff=csharp
+*.xaml text
+*.xml text
+*.json text
+*.yml text
+*.yaml text
+
+# Documentation files
+*.md text
+*.txt text
+*.rst text
+
+# Configuration files
+*.config text
+*.props text
+*.targets text
+*.pubxml text
+*.nuspec text
+.editorconfig text
+.gitignore text
+.gitattributes text
+
+# Scripts
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.sh text eol=lf
+
+# Binary files
+*.dll binary
+*.exe binary
+*.pdb binary
+*.lib binary
+*.obj binary
+*.exp binary
+*.ilk binary
+*.msi binary
+*.msm binary
+*.msp binary
+
+# Image files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.bmp binary
+*.svg text
+*.webp binary
+
+# Font files
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+
+# Archive files
+*.zip binary
+*.7z binary
+*.tar binary
+*.gz binary
+*.rar binary
+
+# Package files
+*.nupkg binary
+*.snupkg binary
+*.appx binary
+*.msix binary
+
+# Language detection for GitHub
+*.cs linguist-language=C#
+*.xaml linguist-language=XML
+*.md linguist-documentation
+*.txt linguist-documentation
+
+# Exclude generated files from language statistics
+bin/ linguist-generated=true
+obj/ linguist-generated=true
+packages/ linguist-generated=true
+*.Designer.cs linguist-generated=true
+*.designer.cs linguist-generated=true
+*.g.cs linguist-generated=true
+*.g.i.cs linguist-generated=true
+AssemblyInfo.cs linguist-generated=true
+
+# Mark vendor files
+packages/* linguist-vendored
+tools/* linguist-vendored

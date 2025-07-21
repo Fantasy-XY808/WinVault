@@ -1,0 +1,11 @@
+MainWindow加载错误 / MainWindow loading error (2025-07-21 19:15:49):
+类型 / Type: COMException
+消息 / Message: 操作标识符不正确。
+
+The WinUI Desktop Window object has already been closed.
+堆栈 / Stack:    at WinRT.ExceptionHelpers.<ThrowExceptionForHR>g__Throw|38_0(Int32 hr)
+   at WinRT.ExceptionHelpers.ThrowExceptionForHR(Int32 hr)
+   at ABI.Microsoft.UI.Xaml.IWindowMethods.set_Title(IObjectReference _obj, String value)
+   at Microsoft.UI.Xaml.Window.set_Title(String value)
+   at WinVault.MainWindow.MainWindow_Activated(Object sender, WindowActivatedEventArgs e) in C:\.Project\WinVault\MainWindow.xaml.cs:line 127
+
