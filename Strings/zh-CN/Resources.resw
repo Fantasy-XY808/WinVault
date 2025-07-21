@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Command_DefaultPrograms_Name" xml:space="preserve">
+    <value>默认程序</value>
+  </data>
+  <data name="Command_DefaultPrograms_Description" xml:space="preserve">
+    <value>设置默认程序。</value>
+  </data>
+  <data name="Command_DefaultPrograms_Category" xml:space="preserve">
+    <value>软件</value>
+  </data>
+
+  <data name="Command_DeviceManager_Name" xml:space="preserve">
+    <value>设备管理器</value>
+  </data>
+  <data name="Command_DeviceManager_Description" xml:space="preserve">
+    <value>打开设备管理器。</value>
+  </data>
+  <data name="Command_DeviceManager_Category" xml:space="preserve">
+    <value>硬件</value>
+  </data>
+
+  <data name="Command_DiskCleanup_Name" xml:space="preserve">
+    <value>磁盘清理</value>
+  </data>
+  <data name="Command_DiskCleanup_Description" xml:space="preserve">
+    <value>打开磁盘清理工具。</value>
+  </data>
+  <data name="Command_DiskCleanup_Category" xml:space="preserve">
+    <value>磁盘</value>
+  </data>
+
+  <data name="Command_DiskDefragmenter_Name" xml:space="preserve">
+    <value>磁盘碎片整理</value>
+  </data>
+  <data name="Command_DiskDefragmenter_Description" xml:space="preserve">
+    <value>打开优化驱动器工具。</value>
+  </data>
+  <data name="Command_DiskDefragmenter_Category" xml:space="preserve">
+    <value>磁盘</value>
+  </data>
+
+  <data name="Command_DiskManagement_Name" xml:space="preserve">
+    <value>磁盘管理</value>
+  </data>
+  <data name="Command_DiskManagement_Description" xml:space="preserve">
+    <value>打开磁盘管理工具。</value>
+  </data>
+  <data name="Command_DiskManagement_Category" xml:space="preserve">
+    <value>磁盘</value>
+  </data>
+
+  <data name="Command_DNSCache_Name" xml:space="preserve">
+    <value>刷新DNS缓存</value>
+  </data>
+  <data name="Command_DNSCache_Description" xml:space="preserve">
+    <value>清除并刷新DNS解析器缓存。</value>
+  </data>
+  <data name="Command_DNSCache_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+
+  <data name="Command_DriverInfo_Name" xml:space="preserve">
+    <value>查看驱动器信息</value>
+  </data>
+  <data name="Command_DriverInfo_Description" xml:space="preserve">
+    <value>显示所有已安装的设备驱动程序及其属性。</value>
+  </data>
+  <data name="Command_DriverInfo_Category" xml:space="preserve">
+    <value>驱动</value>
+  </data>
+
+  <data name="Command_DxDiag_Name" xml:space="preserve">
+    <value>DirectX诊断工具</value>
+  </data>
+  <data name="Command_DxDiag_Description" xml:space="preserve">
+    <value>打开DirectX诊断工具。</value>
+  </data>
+  <data name="Command_DxDiag_Category" xml:space="preserve">
+    <value>诊断</value>
+  </data>
+
+  <data name="Command_EnvironmentVariables_Name" xml:space="preserve">
+    <value>查看环境变量</value>
+  </data>
+  <data name="Command_EnvironmentVariables_Description" xml:space="preserve">
+    <value>显示所有环境变量。</value>
+  </data>
+  <data name="Command_EnvironmentVariables_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_EventLog_Name" xml:space="preserve">
+    <value>查看事件日志</value>
+  </data>
+  <data name="Command_EventLog_Description" xml:space="preserve">
+    <value>显示系统事件日志。</value>
+  </data>
+  <data name="Command_EventLog_Category" xml:space="preserve">
+    <value>日志</value>
+  </data>
+
+  <data name="Command_FirewallAdvanced_Name" xml:space="preserve">
+    <value>高级安全Windows防火墙</value>
+  </data>
+  <data name="Command_FirewallAdvanced_Description" xml:space="preserve">
+    <value>打开高级安全Windows防火墙。</value>
+  </data>
+  <data name="Command_FirewallAdvanced_Category" xml:space="preserve">
+    <value>安全</value>
+  </data>
+
+  <data name="Command_FirewallStatus_Name" xml:space="preserve">
+    <value>查看防火墙状态</value>
+  </data>
+  <data name="Command_FirewallStatus_Description" xml:space="preserve">
+    <value>显示Windows防火墙的当前状态。</value>
+  </data>
+  <data name="Command_FirewallStatus_Category" xml:space="preserve">
+    <value>安全</value>
+  </data>
+
+  <data name="Command_FolderOptions_Name" xml:space="preserve">
+    <value>文件资源管理器选项</value>
+  </data>
+  <data name="Command_FolderOptions_Description" xml:space="preserve">
+    <value>更改文件资源管理器选项。</value>
+  </data>
+  <data name="Command_FolderOptions_Category" xml:space="preserve">
+    <value>文件</value>
+  </data>
+
+  <data name="Command_Fonts_Name" xml:space="preserve">
+    <value>字体</value>
+  </data>
+  <data name="Command_Fonts_Description" xml:space="preserve">
+    <value>查看和管理已安装的字体。</value>
+  </data>
+  <data name="Command_Fonts_Category" xml:space="preserve">
+    <value>显示</value>
+  </data>
+
+  <data name="Command_GroupPolicy_Name" xml:space="preserve">
+    <value>组策略编辑器</value>
+  </data>
+  <data name="Command_GroupPolicy_Description" xml:space="preserve">
+    <value>打开本地组策略编辑器。</value>
+  </data>
+  <data name="Command_GroupPolicy_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_IISManager_Name" xml:space="preserve">
+    <value>IIS管理器</value>
+  </data>
+  <data name="Command_IISManager_Description" xml:space="preserve">
+    <value>打开Internet Information Services (IIS) 管理器。</value>
+  </data>
+  <data name="Command_IISManager_Category" xml:space="preserve">
+    <value>服务</value>
+  </data>
+
+  <data name="Command_IndexingOptions_Name" xml:space="preserve">
+    <value>索引选项</value>
+  </data>
+  <data name="Command_IndexingOptions_Description" xml:space="preserve">
+    <value>配置Windows搜索索引。</value>
+  </data>
+  <data name="Command_IndexingOptions_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_InternetOptions_Name" xml:space="preserve">
+    <value>Internet选项</value>
+  </data>
+  <data name="Command_InternetOptions_Description" xml:space="preserve">
+    <value>配置Internet Explorer设置。</value>
+  </data>
+  <data name="Command_InternetOptions_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+
+  <data name="Command_IPConfig_Name" xml:space="preserve">
+    <value>查看IP配置</value>
+  </data>
+  <data name="Command_IPConfig_Description" xml:space="preserve">
+    <value>显示所有网络适配器的完整TCP/IP配置信息。</value>
+  </data>
+  <data name="Command_IPConfig_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+
+  <data name="Command_Keyboard_Name" xml:space="preserve">
+    <value>键盘</value>
+  </data>
+  <data name="Command_Keyboard_Description" xml:space="preserve">
+    <value>配置键盘设置。</value>
+  </data>
+  <data name="Command_Keyboard_Category" xml:space="preserve">
+    <value>硬件</value>
+  </data>
+
+  <data name="Command_LocalSecurityPolicy_Name" xml:space="preserve">
+    <value>本地安全策略</value>
+  </data>
+  <data name="Command_LocalSecurityPolicy_Description" xml:space="preserve">
+    <value>配置本地安全策略。</value>
+  </data>
+  <data name="Command_LocalSecurityPolicy_Category" xml:space="preserve">
+    <value>安全</value>
+  </data>
+
+  <data name="Command_LocalUsersAndGroups_Name" xml:space="preserve">
+    <value>本地用户和组</value>
+  </data>
+  <data name="Command_LocalUsersAndGroups_Description" xml:space="preserve">
+    <value>管理本地用户和组。</value>
+  </data>
+  <data name="Command_LocalUsersAndGroups_Category" xml:space="preserve">
+    <value>用户</value>
+  </data>
+
+  <data name="Command_Mouse_Name" xml:space="preserve">
+    <value>鼠标</value>
+  </data>
+  <data name="Command_Mouse_Description" xml:space="preserve">
+    <value>配置鼠标设置。</value>
+  </data>
+  <data name="Command_Mouse_Category" xml:space="preserve">
+    <value>硬件</value>
+  </data>
+
+  <data name="Command_Netstat_Name" xml:space="preserve">
+    <value>查看网络连接</value>
+  </data>
+  <data name="Command_Netstat_Description" xml:space="preserve">
+    <value>显示所有活动的TCP连接、端口监听、以太网统计信息、IP路由表和IPv4/v6统计信息。</value>
+  </data>
+  <data name="Command_Netstat_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+
+  <data name="Command_NetworkAdapters_Name" xml:space="preserve">
+    <value>查看网络适配器</value>
+  </data>
+  <data name="Command_NetworkAdapters_Description" xml:space="preserve">
+    <value>显示所有网络适配器及其配置。</value>
+  </data>
+  <data name="Command_NetworkAdapters_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+
+  <data name="Command_NetworkConnections_Name" xml:space="preserve">
+    <value>网络连接</value>
+  </data>
+  <data name="Command_NetworkConnections_Description" xml:space="preserve">
+    <value>打开网络连接设置。</value>
+  </data>
+  <data name="Command_NetworkConnections_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+
+  <data name="Command_ODBCDataSources_Name" xml:space="preserve">
+    <value>ODBC数据源</value>
+  </data>
+  <data name="Command_ODBCDataSources_Description" xml:space="preserve">
+    <value>配置ODBC数据源。</value>
+  </data>
+  <data name="Command_ODBCDataSources_Category" xml:space="preserve">
+    <value>数据库</value>
+  </data>
+
+  <data name="Command_PerformanceMonitor_Name" xml:space="preserve">
+    <value>性能监视器</value>
+  </data>
+  <data name="Command_PerformanceMonitor_Description" xml:space="preserve">
+    <value>打开性能监视器。</value>
+  </data>
+  <data name="Command_PerformanceMonitor_Category" xml:space="preserve">
+    <value>性能</value>
+  </data>
+
+  <data name="Command_PhoneAndModem_Name" xml:space="preserve">
+    <value>电话和调制解调器</value>
+  </data>
+  <data name="Command_PhoneAndModem_Description" xml:space="preserve">
+    <value>配置电话和调制解调器设置。</value>
+  </data>
+  <data name="Command_PhoneAndModem_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+
+  <data name="Command_PowerCfg_Name" xml:space="preserve">
+    <value>查看电源配置</value>
+  </data>
+  <data name="Command_PowerCfg_Description" xml:space="preserve">
+    <value>显示或修改电源方案设置。</value>
+  </data>
+  <data name="Command_PowerCfg_Category" xml:space="preserve">
+    <value>电源</value>
+  </data>
+
+  <data name="Command_PrintManagement_Name" xml:space="preserve">
+    <value>打印管理</value>
+  </data>
+  <data name="Command_PrintManagement_Description" xml:space="preserve">
+    <value>管理打印机和打印服务器。</value>
+  </data>
+  <data name="Command_PrintManagement_Category" xml:space="preserve">
+    <value>硬件</value>
+  </data>
+
+  <data name="Command_ProgramsAndFeatures_Name" xml:space="preserve">
+    <value>程序和功能</value>
+  </data>
+  <data name="Command_ProgramsAndFeatures_Description" xml:space="preserve">
+    <value>卸载或更改程序。</value>
+  </data>
+  <data name="Command_ProgramsAndFeatures_Category" xml:space="preserve">
+    <value>软件</value>
+  </data>
+
+  <data name="Command_Region_Name" xml:space="preserve">
+    <value>区域</value>
+  </data>
+  <data name="Command_Region_Description" xml:space="preserve">
+    <value>更改区域和语言设置。</value>
+  </data>
+  <data name="Command_Region_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_RegistryEditor_Name" xml:space="preserve">
+    <value>注册表编辑器</value>
+  </data>
+  <data name="Command_RegistryEditor_Description" xml:space="preserve">
+    <value>打开Windows注册表编辑器。</value>
+  </data>
+  <data name="Command_RegistryEditor_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_RemoteDesktop_Name" xml:space="preserve">
+    <value>远程桌面连接</value>
+  </data>
+  <data name="Command_RemoteDesktop_Description" xml:space="preserve">
+    <value>打开远程桌面连接。</value>
+  </data>
+  <data name="Command_RemoteDesktop_Category" xml:space="preserve">
+    <value>网络</value>
+  </data>
+
+  <data name="Command_ResourceMonitor_Name" xml:space="preserve">
+    <value>资源监视器</value>
+  </data>
+  <data name="Command_ResourceMonitor_Description" xml:space="preserve">
+    <value>打开资源监视器。</value>
+  </data>
+  <data name="Command_ResourceMonitor_Category" xml:space="preserve">
+    <value>性能</value>
+  </data>
+
+  <data name="Command_ScheduledTasks_Name" xml:space="preserve">
+    <value>查看计划任务</value>
+  </data>
+  <data name="Command_ScheduledTasks_Description" xml:space="preserve">
+    <value>显示所有计划任务的详细信息。</value>
+  </data>
+  <data name="Command_ScheduledTasks_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_Services_Name" xml:space="preserve">
+    <value>服务</value>
+  </data>
+  <data name="Command_Services_Description" xml:space="preserve">
+    <value>打开服务管理控制台。</value>
+  </data>
+  <data name="Command_Services_Category" xml:space="preserve">
+    <value>服务</value>
+  </data>
+
+  <data name="Command_ServiceStatus_Name" xml:space="preserve">
+    <value>查看服务状态</value>
+  </data>
+  <data name="Command_ServiceStatus_Description" xml:space="preserve">
+    <value>查询所有服务的状态。</value>
+  </data>
+  <data name="Command_ServiceStatus_Category" xml:space="preserve">
+    <value>服务</value>
+  </data>
+
+  <data name="Command_Sound_Name" xml:space="preserve">
+    <value>声音</value>
+  </data>
+  <data name="Command_Sound_Description" xml:space="preserve">
+    <value>配置声音设置。</value>
+  </data>
+  <data name="Command_Sound_Category" xml:space="preserve">
+    <value>硬件</value>
+  </data>
+
+  <data name="Command_SpeechRecognition_Name" xml:space="preserve">
+    <value>语音识别</value>
+  </data>
+  <data name="Command_SpeechRecognition_Description" xml:space="preserve">
+    <value>配置语音识别设置。</value>
+  </data>
+  <data name="Command_SpeechRecognition_Category" xml:space="preserve">
+    <value>辅助功能</value>
+  </data>
+
+  <data name="Command_SyncCenter_Name" xml:space="preserve">
+    <value>同步中心</value>
+  </data>
+  <data name="Command_SyncCenter_Description" xml:space="preserve">
+    <value>管理文件同步。</value>
+  </data>
+  <data name="Command_SyncCenter_Category" xml:space="preserve">
+    <value>文件</value>
+  </data>
+
+  <data name="Command_SystemConfiguration_Name" xml:space="preserve">
+    <value>系统配置</value>
+  </data>
+  <data name="Command_SystemConfiguration_Description" xml:space="preserve">
+    <value>打开系统配置实用程序（msconfig）。</value>
+  </data>
+  <data name="Command_SystemConfiguration_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_SystemFiles_Name" xml:space="preserve">
+    <value>检查系统文件</value>
+  </data>
+  <data name="Command_SystemFiles_Description" xml:space="preserve">
+    <value>扫描并修复受损的Windows系统文件。</value>
+  </data>
+  <data name="Command_SystemFiles_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_SystemInfo_Name" xml:space="preserve">
+    <value>查看系统信息</value>
+  </data>
+  <data name="Command_SystemInfo_Description" xml:space="preserve">
+    <value>显示本地计算机的详细配置信息，包括硬件和操作系统。</value>
+  </data>
+  <data name="Command_SystemInfo_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_SystemProperties_Name" xml:space="preserve">
+    <value>系统属性</value>
+  </data>
+  <data name="Command_SystemProperties_Description" xml:space="preserve">
+    <value>打开系统属性。</value>
+  </data>
+  <data name="Command_SystemProperties_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_SystemRestore_Name" xml:space="preserve">
+    <value>系统还原点</value>
+  </data>
+  <data name="Command_SystemRestore_Description" xml:space="preserve">
+    <value>创建或管理系统还原点。</value>
+  </data>
+  <data name="Command_SystemRestore_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_SystemRestorePoint_Name" xml:space="preserve">
+    <value>创建还原点</value>
+  </data>
+  <data name="Command_SystemRestorePoint_Description" xml:space="preserve">
+    <value>创建系统还原点。</value>
+  </data>
+  <data name="Command_SystemRestorePoint_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_SystemUptime_Name" xml:space="preserve">
+    <value>查看系统运行时间</value>
+  </data>
+  <data name="Command_SystemUptime_Description" xml:space="preserve">
+    <value>显示系统自上次启动以来的运行时间。</value>
+  </data>
+  <data name="Command_SystemUptime_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_TaskList_Name" xml:space="preserve">
+    <value>查看正在运行的进程</value>
+  </data>
+  <data name="Command_TaskList_Description" xml:space="preserve">
+    <value>显示本地或远程计算机上所有正在运行的任务。</value>
+  </data>
+  <data name="Command_TaskList_Category" xml:space="preserve">
+    <value>进程</value>
+  </data>
+
+  <data name="Command_TaskScheduler_Name" xml:space="preserve">
+    <value>任务计划程序</value>
+  </data>
+  <data name="Command_TaskScheduler_Description" xml:space="preserve">
+    <value>打开任务计划程序。</value>
+  </data>
+  <data name="Command_TaskScheduler_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_TextToSpeech_Name" xml:space="preserve">
+    <value>文本到语音</value>
+  </data>
+  <data name="Command_TextToSpeech_Description" xml:space="preserve">
+    <value>配置文本到语音设置。</value>
+  </data>
+  <data name="Command_TextToSpeech_Category" xml:space="preserve">
+    <value>辅助功能</value>
+  </data>
+
+  <data name="Command_Troubleshooting_Name" xml:space="preserve">
+    <value>疑难解答</value>
+  </data>
+  <data name="Command_Troubleshooting_Description" xml:space="preserve">
+    <value>打开疑难解答设置。</value>
+  </data>
+  <data name="Command_Troubleshooting_Category" xml:space="preserve">
+    <value>诊断</value>
+  </data>
+
+  <data name="Command_UserAccounts_Name" xml:space="preserve">
+    <value>查看用户账户</value>
+  </data>
+  <data name="Command_UserAccounts_Description" xml:space="preserve">
+    <value>显示计算机上的用户账户列表。</value>
+  </data>
+  <data name="Command_UserAccounts_Category" xml:space="preserve">
+    <value>用户</value>
+  </data>
+
+  <data name="Command_UserAccounts_ControlPanel_Name" xml:space="preserve">
+    <value>用户账户（控制面板）</value>
+  </data>
+  <data name="Command_UserAccounts_ControlPanel_Description" xml:space="preserve">
+    <value>管理用户账户。</value>
+  </data>
+  <data name="Command_UserAccounts_ControlPanel_Category" xml:space="preserve">
+    <value>用户</value>
+  </data>
+
+  <data name="Command_UserAccountsControl_Name" xml:space="preserve">
+    <value>用户账户控制设置</value>
+  </data>
+  <data name="Command_UserAccountsControl_Description" xml:space="preserve">
+    <value>更改用户账户控制设置。</value>
+  </data>
+  <data name="Command_UserAccountsControl_Category" xml:space="preserve">
+    <value>安全</value>
+  </data>
+
+  <data name="Command_WindowsDefenderFirewall_Name" xml:space="preserve">
+    <value>Windows Defender防火墙</value>
+  </data>
+  <data name="Command_WindowsDefenderFirewall_Description" xml:space="preserve">
+    <value>配置Windows Defender防火墙。</value>
+  </data>
+  <data name="Command_WindowsDefenderFirewall_Category" xml:space="preserve">
+    <value>安全</value>
+  </data>
+
+  <data name="Command_WindowsDefender_Name" xml:space="preserve">
+    <value>Windows Defender</value>
+  </data>
+  <data name="Command_WindowsDefender_Description" xml:space="preserve">
+    <value>打开Windows Defender安全中心。</value>
+  </data>
+  <data name="Command_WindowsDefender_Category" xml:space="preserve">
+    <value>安全</value>
+  </data>
+
+  <data name="Command_WindowsMobilityCenter_Name" xml:space="preserve">
+    <value>Windows移动中心</value>
+  </data>
+  <data name="Command_WindowsMobilityCenter_Description" xml:space="preserve">
+    <value>打开Windows移动中心。</value>
+  </data>
+  <data name="Command_WindowsMobilityCenter_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_WindowsUpdate_Name" xml:space="preserve">
+    <value>Windows更新</value>
+  </data>
+  <data name="Command_WindowsUpdate_Description" xml:space="preserve">
+    <value>检查Windows更新。</value>
+  </data>
+  <data name="Command_WindowsUpdate_Category" xml:space="preserve">
+    <value>系统</value>
+  </data>
+
+  <data name="Command_WorkFolders_Name" xml:space="preserve">
+    <value>工作文件夹</value>
+  </data>
+  <data name="Command_WorkFolders_Description" xml:space="preserve">
+    <value>配置工作文件夹。</value>
+  </data>
+  <data name="Command_WorkFolders_Category" xml:space="preserve">
+    <value>文件</value>
+  </data>
+
+  <!-- ===== UI 本地化资源（新增） ===== -->
+  <data name="AppName" xml:space="preserve">
+    <value>WinVault</value>
+  </data>
+  <data name="NavItem_Home" xml:space="preserve">
+    <value>首页</value>
+  </data>
+  <data name="NavItem_Hardware" xml:space="preserve">
+    <value>硬件信息</value>
+  </data>
+  <data name="NavItem_Services" xml:space="preserve">
+    <value>服务</value>
+  </data>
+  <data name="NavItem_CommandQuery" xml:space="preserve">
+    <value>命令查询</value>
+  </data>
+  <data name="NavItem_QuickSettings" xml:space="preserve">
+    <value>快捷设置</value>
+  </data>
+  <data name="NavItem_ExeTools" xml:space="preserve">
+    <value>工具</value>
+  </data>
+
+  <data name="NavItem_About" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="NavItem_Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+
+  <!-- 按钮 -->
+  <data name="Button_OK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="Button_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Button_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Button_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Button_Close" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="Button_Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Button_Apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <!-- 设置页 -->
+  <data name="Settings_Title" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Settings_Theme" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="Settings_Theme_Light" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="Settings_Theme_Dark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="Settings_Theme_System" xml:space="preserve">
+    <value>系统</value>
+  </data>
+  <data name="Settings_AutoStart" xml:space="preserve">
+    <value>随 Windows 启动</value>
+  </data>
+  <data name="Settings_CheckUpdates" xml:space="preserve">
+    <value>自动检查更新</value>
+  </data>
+  <data name="Settings_LogLevel" xml:space="preserve">
+    <value>日志级别</value>
+  </data>
+  <!-- 首页 -->
+  <data name="Home_Title" xml:space="preserve">
+    <value>WinVault</value>
+  </data>
+  <data name="Home_Subtitle" xml:space="preserve">
+    <value>欢迎使用 WinVault，现代化Windows系统管理平台</value>
+  </data>
+  <data name="Home_CommonFeatures" xml:space="preserve">
+    <value>常用功能</value>
+  </data>
+  <data name="Home_SystemTools" xml:space="preserve">
+    <value>系统工具</value>
+  </data>
+  <!-- 硬件页 -->
+  <data name="Hardware_Title" xml:space="preserve">
+    <value>硬件信息</value>
+  </data>
+  <data name="Hardware_CPU" xml:space="preserve">
+    <value>处理器</value>
+  </data>
+  <data name="Hardware_Memory" xml:space="preserve">
+    <value>内存</value>
+  </data>
+  <data name="Hardware_Disk" xml:space="preserve">
+    <value>磁盘</value>
+  </data>
+  <data name="Hardware_GPU" xml:space="preserve">
+    <value>显卡</value>
+  </data>
+  <data name="Hardware_Network" xml:space="preserve">
+    <value>网络</value>
+  </data>
+  <data name="Hardware_Motherboard" xml:space="preserve">
+    <value>主板</value>
+  </data>
+  <data name="Hardware_BIOS" xml:space="preserve">
+    <value>BIOS</value>
+  </data>
+  <!-- ===== UI 资源结束 ===== -->
+
+  <!-- 修复：文件尾部资源项被截断，以下行已注释处理 -->
+  <!--<data name="Command_">-->
+</root>

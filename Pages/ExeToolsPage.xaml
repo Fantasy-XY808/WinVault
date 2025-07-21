@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="WinVault.Pages.ExeToolsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"
+    Loaded="ExeToolsPage_Loaded">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 页面标题 -->
+        <TextBlock Grid.Row="0" Text="工具软件" Style="{StaticResource PageTitleStyle}"/>
+
+        <!-- 内容区域 -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="20,0,20,20" Spacing="16" HorizontalAlignment="Stretch">
+                <!-- 工具分类列表 -->
+                <muxc:ItemsRepeater x:Name="ToolCategoriesRepeater">
+                    <muxc:ItemsRepeater.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Spacing="12" Margin="0,0,0,24">
+                                <!-- 分类标题 -->
+                                <TextBlock Text="{Binding CategoryName}" Style="{StaticResource SectionTitleStyle}"/>
+                                
+                                <!-- 工具列表 -->
+                                <muxc:ItemsRepeater ItemsSource="{Binding Tools}">
+                                    <muxc:ItemsRepeater.Layout>
+                                        <muxc:UniformGridLayout
+                                            MinItemWidth="200"
+                                            MinItemHeight="140"
+                                            MinRowSpacing="12"
+                                            MinColumnSpacing="12"
+                                            ItemsStretch="Fill"
+                                            MaximumRowsOrColumns="3" />
+                                    </muxc:ItemsRepeater.Layout>
+                                    <muxc:ItemsRepeater.ItemTemplate>
+                                        <DataTemplate>
+                                            <!-- 工具卡片 -->
+                                            <Grid Style="{StaticResource CardStyle}"
+                                                  MinHeight="140"
+                                                  DoubleTapped="ToolCard_DoubleTapped"
+                                                  Tag="{Binding FilePath}"
+                                                  ToolTipService.ToolTip="双击运行">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                
+                                                <!-- 工具图标和名称 -->
+                                                <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                                                    <Image Width="32" Height="32" Source="{Binding IconSource}" 
+                                                           VerticalAlignment="Center" Visibility="{Binding IconVisibility}"/>
+                                                    <TextBlock Text="{Binding OriginalName}" 
+                                                               FontWeight="SemiBold" 
+                                                               TextWrapping="Wrap"
+                                                               FontSize="16"
+                                                               VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                
+                                                <!-- 工具描述 -->
+                                                <TextBlock Grid.Row="1" 
+                                                           Text="{Binding Description}" 
+                                                           TextWrapping="Wrap" 
+                                                           Opacity="0.8"
+                                                           FontSize="12"/>
+                                                
+                                                <!-- 版本和发布者信息 -->
+                                                <StackPanel Grid.Row="2" Spacing="4" Margin="0,8,0,0">
+                                                    <TextBlock Text="{Binding Version, TargetNullValue='', FallbackValue=''}" 
+                                                               Visibility="{Binding Version, Converter={StaticResource StringToVisibilityConverter}}"
+                                                               TextWrapping="NoWrap" 
+                                                               Opacity="0.7"
+                                                               FontSize="11"/>
+                                                    <TextBlock Text="{Binding Publisher, TargetNullValue='', FallbackValue=''}" 
+                                                               Visibility="{Binding Publisher, Converter={StaticResource StringToVisibilityConverter}}"
+                                                               TextWrapping="NoWrap" 
+                                                               Opacity="0.7"
+                                                               FontSize="11"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </muxc:ItemsRepeater.ItemTemplate>
+                                </muxc:ItemsRepeater>
+                            </StackPanel>
+                        </DataTemplate>
+                    </muxc:ItemsRepeater.ItemTemplate>
+                </muxc:ItemsRepeater>
+                
+                <!-- 当没有工具时显示的提示 -->
+                <TextBlock x:Name="NoToolsMessage" 
+                           Text="没有找到工具软件。请确保exetools文件夹中包含工具软件。" 
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Margin="0,50,0,0"
+                           Visibility="Collapsed"/>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <!-- 加载指示器 -->
+        <ProgressRing x:Name="LoadingRing" 
+                      Grid.Row="1"
+                      IsActive="True" 
+                      Width="50" 
+                      Height="50"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"/>
+    </Grid>
+</Page> 

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="WinVault.Pages.HardwarePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinVault.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="硬件管理" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,10"/>
+            <TextBlock Text="查看和管理计算机硬件" Style="{ThemeResource SubtitleTextBlockStyle}" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <!-- 左侧类别列表 -->
+            <ListView 
+                x:Name="HardwareCategoriesListView"
+                Grid.Column="0"
+                BorderThickness="0,0,1,0"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                Margin="0,0,20,0"
+                SelectionMode="Single"
+                SelectedIndex="0">
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE964;" Margin="0,0,10,0"/>
+                        <TextBlock Text="处理器"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEDA2;" Margin="0,0,10,0"/>
+                        <TextBlock Text="内存"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xEDA2;" Margin="0,0,10,0"/>
+                        <TextBlock Text="磁盘"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE704;" Margin="0,0,10,0"/>
+                        <TextBlock Text="显卡"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE701;" Margin="0,0,10,0"/>
+                        <TextBlock Text="网络适配器"/>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74B;" Margin="0,0,10,0"/>
+                        <TextBlock Text="电源信息"/>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+            
+            <!-- 右侧详细信息 -->
+            <ScrollViewer Grid.Column="1">
+                <StackPanel>
+                    <TextBlock x:Name="HardwareCategoryTitle" 
+                               Text="处理器信息" 
+                               Style="{ThemeResource SubtitleTextBlockStyle}" 
+                               Margin="0,0,0,20"/>
+                    
+                    <!-- 硬件信息卡片 -->
+                    <ListView x:Name="HardwareInfoListView">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,0,0,10"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                          BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                          BorderThickness="1"
+                                          CornerRadius="8"
+                                          Padding="16">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        
+                                        <TextBlock Text="{Binding Name}" 
+                                                   Grid.Row="0"
+                                                   Style="{ThemeResource BodyStrongTextBlockStyle}"
+                                                   Margin="0,0,0,10"/>
+                                        
+                                        <ListView Grid.Row="1"
+                                                  ItemsSource="{Binding Properties}"
+                                                  IsItemClickEnabled="False"
+                                                  SelectionMode="None">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="200"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding Key}" 
+                                                                   Grid.Column="0"
+                                                                   Opacity="0.7"/>
+                                                        <TextBlock Text="{Binding Value}" 
+                                                                   Grid.Column="1"
+                                                                   TextWrapping="Wrap"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        
+                        <!-- 占位数据 -->
+                        <TextBlock Text="加载中..."
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Opacity="0.7"/>
+                    </ListView>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page> 
