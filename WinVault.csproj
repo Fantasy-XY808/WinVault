@@ -39,10 +39,13 @@
     <!-- 移除 snippet 路径属性 -->
     <!-- 使用自定义最小 Pri 配置 -->
     <AppxPriConfigXmlPath>PriConfig.xml</AppxPriConfigXmlPath>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- 使用稳定版 Windows App SDK 1.4 以避免 1.5 预览版在非 Insider 系统上出现 0xc000027b / 模块丢失 问题 -->
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
     <!-- 使用与 Windows 22H2 对应的稳定版 BuildTools 避免编译时 API 缺失 -->
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" PrivateAssets="all" />
@@ -52,6 +55,12 @@
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageReference Include="System.Management" Version="8.0.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PRIResource Update="Strings\zh-CN\Resources.resw">
+      <Generator></Generator>
+    </PRIResource>
   </ItemGroup>
 
 

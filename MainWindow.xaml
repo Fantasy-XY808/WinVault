@@ -29,9 +29,9 @@ Purpose: Main application window with modern navigation interface,
 
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="主页" Tag="home" Icon="Home"/>
-                <NavigationViewItem Content="硬件信息" Tag="hardware" Icon="Computer"/>
+                <NavigationViewItem Content="硬件信息" Tag="hardware" Icon="Save"/>
                 <NavigationViewItem Content="服务管理" Tag="services" Icon="Admin"/>
-                <NavigationViewItem Content="命令查询" Tag="commandquery" Icon="Code"/>
+                <NavigationViewItem Content="命令查询" Tag="commandquery" Icon="Help"/>
                 <NavigationViewItem Content="快速设置" Tag="quicksettings" Icon="Setting"/>
                 <NavigationViewItem Content="工具箱" Tag="exetools" Icon="Repair"/>
             </NavigationView.MenuItems>
