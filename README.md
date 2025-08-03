@@ -1,7 +1,13 @@
+<div align="right">
+
+**Language / 语言:** [🇺🇸 English](README_EN.md) | [🇨🇳 中文](README.md)
+
+</div>
+
 <div align="center">
 
 # 🏛️ WinVault
-## 新一代Windows系统管理平台 | Next-Generation Windows System Management Platform
+## 现代化Windows系统管理工具
 
 ```ascii
 ██╗    ██╗██╗███╗   ██╗██╗   ██╗ █████╗ ██╗   ██╗██╗  ████████╗
@@ -10,324 +16,221 @@
 ██║███╗██║██║██║╚██╗██║╚██╗ ██╔╝██╔══██║██║   ██║██║     ██║
 ╚███╔███╔╝██║██║ ╚████║ ╚████╔╝ ██║  ██║╚██████╔╝███████╗██║
  ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝
-
-    🏛️ 专业级Windows系统管理平台 | Professional Windows Management Platform
-    🚀 基于WinUI 3 + .NET 8构建 | Built with WinUI 3 + .NET 8
-    ⚡ 现代化架构 + 企业级功能 | Modern Architecture + Enterprise Features
 ```
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=24&duration=2500&pause=800&color=00D4FF&center=true&vCenter=true&width=800&lines=🏛️+WinVault+系统宝库;🚀+专业级Windows管理平台;⚡+现代化系统工具集;🔧+企业级解决方案;💎+开源透明可信赖;🌟+持续创新进化中" alt="Dynamic Typing" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&width=500&lines=🏛️+专业Windows管理工具;⚡+WinUI+3+现代界面;🔧+开源免费使用;💎+持续更新维护" alt="Dynamic Typing" />
 </p>
-
-<img src="Assets/Square150x150Logo.scale-200.png" alt="WinVault Logo" width="150" height="150">
-
-### 🌟 **为什么选择WinVault？**
-
-<table align="center">
-<tr>
-<td align="center">🎯<br><b>零学习成本</b><br>直观界面设计</td>
-<td align="center">⚡<br><b>极致性能</b><br>原生WinUI 3</td>
-<td align="center">🔒<br><b>安全可靠</b><br>开源透明</td>
-<td align="center">🚀<br><b>持续创新</b><br>活跃开发</td>
-</tr>
-</table>
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![.NET](https://img.shields.io/badge/.NET-8.0-blue.svg)](https://dotnet.microsoft.com/download/dotnet/8.0)
 [![WinUI](https://img.shields.io/badge/WinUI-3.0-brightgreen.svg)](https://docs.microsoft.com/en-us/windows/apps/winui/)
 [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-lightgrey.svg)](https://www.microsoft.com/windows/)
-[![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen.svg)](https://github.com/Fantasy-XY808/WinVault/actions)
 [![Release](https://img.shields.io/github/v/release/Fantasy-XY808/WinVault)](https://github.com/Fantasy-XY808/WinVault/releases)
-[![Downloads](https://img.shields.io/github/downloads/Fantasy-XY808/WinVault/total.svg)](https://github.com/Fantasy-XY808/WinVault/releases)
-[![Issues](https://img.shields.io/github/issues/Fantasy-XY808/WinVault)](https://github.com/Fantasy-XY808/WinVault/issues)
-[![Pull Requests](https://img.shields.io/github/issues-pr/Fantasy-XY808/WinVault)](https://github.com/Fantasy-XY808/WinVault/pulls)
-[![Stars](https://img.shields.io/github/stars/Fantasy-XY808/WinVault?style=social)](https://github.com/Fantasy-XY808/WinVault/stargazers)
-[![Forks](https://img.shields.io/github/forks/Fantasy-XY808/WinVault?style=social)](https://github.com/Fantasy-XY808/WinVault/network/members)
+[![Downloads](https://img.shields.io/github/downloads/Fantasy-XY808/WinVault/total)](https://github.com/Fantasy-XY808/WinVault/releases)
 
-**新一代Windows系统管理平台，为用户提供专业级系统优化、监控和维护解决方案**
+<img src="Assets/Square150x150Logo.scale-200.png" alt="WinVault Logo" width="100" height="100">
 
-[📥 立即下载](#-快速开始) | [📖 使用文档](#-详细功能说明) | [🤝 参与贡献](CONTRIBUTING.md) | [💬 讨论交流](https://github.com/Fantasy-XY808/WinVault/discussions) | [🐛 问题反馈](https://github.com/Fantasy-XY808/WinVault/issues)
+**一个让Windows系统管理变得简单而强大的现代化工具**
+
+[📥 立即下载](https://github.com/Fantasy-XY808/WinVault/releases) | [📖 使用文档](#功能介绍) | [🤝 参与贡献](#参与贡献) | [💬 问题反馈](https://github.com/Fantasy-XY808/WinVault/issues)
+
+</div>
 
 ---
 
-</div>
+## ✨ 功能介绍
 
-## 🌟 项目亮点
+### 🖥️ **系统信息**
+- **硬件检测** - CPU、内存、显卡、存储设备详细信息
+- **实时监控** - 温度、使用率、性能指标
+- **系统报告** - 生成详细的系统配置报告
 
-<div align="center">
+### ⚙️ **服务管理**
+- **服务控制** - 启动、停止、重启Windows服务
+- **依赖关系** - 查看服务依赖和被依赖关系
+- **启动类型** - 修改服务启动类型和配置
 
-```ascii
-╔══════════════════════════════════════════════════════════════╗
-║  🏛️ 为什么选择 WinVault 系统宝库？                          ║
-╠══════════════════════════════════════════════════════════════╣
-║  ✅ 现代化设计    │  基于WinUI 3的流畅体验                   ║
-║  ✅ 智能优化      │  高效的系统性能优化                      ║
-║  ✅ 专业级工具    │  企业级系统管理功能                      ║
-║  ✅ 安全可靠      │  开源透明，社区驱动                      ║
-║  ✅ 持续创新      │  前沿技术，持续进化                      ║
-╚══════════════════════════════════════════════════════════════╝
-```
+### 🔧 **实用工具**
+- **命令行工具** - 常用CMD和PowerShell命令图形化
+- **快速设置** - 一键访问Windows系统设置
+- **系统清理** - 清理临时文件和系统垃圾
 
-</div>
+### 🎨 **界面特色**
+- **现代设计** - 基于WinUI 3的Fluent Design
+- **响应式布局** - 适配不同屏幕尺寸
+- **主题支持** - 支持浅色/深色主题切换
 
-## ✨ 核心功能
-
-<div align="center">
-
-### 🖥️ **系统信息模块**
-```
-🔍 硬件详情查看    📊 性能实时监控    🌡️ 温度状态显示
-💾 存储空间分析    🖥️ 显卡信息检测    🔋 电源状态监控
-```
-
-### ⚙️ **系统管理模块**
-```
-🔄 服务启停管理    📋 进程监控控制    📝 注册表安全编辑
-🧹 系统垃圾清理    🔧 启动项管理      🛡️ 系统安全检查
-```
-
-### 🛠️ **实用工具集**
-```
-💻 命令行图形化    📁 文件批量处理    🌐 网络诊断工具
-🔍 系统诊断检测    📊 性能基准测试    🎯 快速设置面板
-```
-
-</div>
-
-## 🚀 快速开始
-
-### 📥 **安装方法**
+## 🚀 技术特点
 
 <div align="center">
 
-| 🎯 **方式** | 📝 **说明** | ⏱️ **时间** | 🎖️ **推荐度** |
-|:---:|:---:|:---:|:---:|
-| **直接下载** | 从Releases下载安装包 | 2分钟 | ⭐⭐⭐⭐⭐ |
-| **源码构建** | 克隆仓库自行编译 | 5分钟 | ⭐⭐⭐⭐ |
-| **包管理器** | 通过winget安装 | 1分钟 | ⭐⭐⭐⭐⭐ |
-
-</div>
-
-#### 🎯 **方法一：直接下载（推荐）**
-```bash
-# 1. 访问Releases页面
-https://github.com/Fantasy-XY808/WinVault/releases/latest
-
-# 2. 下载对应架构的安装包
-WinVault-Setup-x64.exe    # 64位系统
-WinVault-Setup-x86.exe    # 32位系统
-WinVault-Setup-ARM64.exe  # ARM64系统
-
-# 3. 运行安装程序
-双击安装包 → 按向导完成安装 → 启动应用
-```
-
-#### 🛠️ **方法二：开发者构建**
-```bash
-# 克隆仓库
-git clone https://github.com/Fantasy-XY808/WinVault.git
-cd WinVault
-
-# 还原依赖
-dotnet restore
-
-# 构建项目
-dotnet build --configuration Release
-
-# 运行应用
-dotnet run --configuration Release
-```
-
-#### ⚡ **方法三：包管理器（即将支持）**
-```bash
-# 通过winget安装（开发中）
-winget install Fantasy-XY808.WinVault
-
-# 通过Chocolatey安装（计划中）
-choco install winvault
-```
-
-## 💻 系统要求
-
-<div align="center">
-
-### 🖥️ **最低配置**
-| 组件 | 要求 |
-|:---:|:---:|
-| **操作系统** | Windows 10 1809+ / Windows 11 |
-| **处理器** | Intel/AMD 双核 1.8GHz+ |
-| **内存** | 2GB RAM |
-| **存储** | 100MB 可用空间 |
-| **显卡** | 支持DirectX 11 |
-| **网络** | 可选（在线功能需要） |
-
-### 🚀 **推荐配置**
-| 组件 | 要求 |
-|:---:|:---:|
-| **操作系统** | Windows 11 22H2+ |
-| **处理器** | Intel/AMD 四核 2.4GHz+ |
-| **内存** | 4GB+ RAM |
-| **存储** | 500MB+ 可用空间 |
-| **显卡** | 独立显卡或集成显卡 |
-| **网络** | 宽带连接（最佳体验） |
-
-</div>
-
-## 🔧 技术架构
-
-<div align="center">
-
-### 💻 技术栈可视化
-
-```mermaid
-graph TB
-    subgraph "🎨 前端层"
-        A[WinUI 3] --> B[XAML]
-        A --> C[C# Code-Behind]
-    end
-
-    subgraph "🧠 业务层"
-        D[ViewModels] --> E[Services]
-        E --> G[System Services]
-    end
-
-    subgraph "🏗️ 基础设施层"
-        H[.NET 8.0] --> I[Dependency Injection]
-        I --> J[Logging - Serilog]
-        I --> K[Configuration]
-    end
-
-    A --> D
-    D --> E
-    E --> H
-
-    style A fill:#e1f5fe
-    style D fill:#f3e5f5
-    style H fill:#e8f5e8
-```
-
-### 🛠️ 核心技术栈
+| 技术 | 版本 | 说明 |
+|:---:|:---:|:---:|
+| **WinUI 3** | 1.5+ | 现代Windows应用界面框架 |
+| **.NET** | 8.0 | 高性能跨平台运行时 |
+| **C#** | 12.0 | 现代编程语言特性 |
+| **MVVM** | - | 清晰的架构模式 |
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=cs,dotnet,visualstudio,git,github,windows&theme=dark" />
+  <img src="https://skillicons.dev/icons?i=cs,dotnet,visualstudio,git,github,windows" />
 </p>
 
 </div>
 
-| 层级 | 技术选型 | 版本 | 说明 |
-|:---:|:---:|:---:|:---:|
-| **🎨 UI层** | WinUI 3 | 1.5+ | 现代化Windows应用界面 |
-| **🧠 业务层** | C# | 12.0 | 高性能业务逻辑实现 |
-| **🏗️ 框架层** | .NET | 8.0 | 跨平台运行时环境 |
-| **📐 架构模式** | MVVM + Clean Architecture | - | 清晰的分层架构设计 |
-| **💉 依赖注入** | Microsoft.Extensions.DI | 8.0+ | 松耦合组件管理 |
-| **📝 日志系统** | Serilog | 3.0+ | 结构化日志记录 |
-| **🧪 测试框架** | MSTest | 3.0+ | 单元测试和集成测试 |
+## 📥 快速开始
 
-## 📖 详细功能说明
+### 下载安装
 
-### 🖥️ **系统信息模块**
-- 🔍 **硬件详情** - CPU、内存、显卡、存储设备完整规格
-- 📊 **实时监控** - 温度、使用率、性能指标实时显示
-- 🧪 **性能测试** - 内置基准测试和稳定性检测
-- 📈 **历史记录** - 系统性能数据历史趋势分析
+**方式一：直接下载（推荐）**
+1. 访问 [Releases页面](https://github.com/Fantasy-XY808/WinVault/releases)
+2. 下载最新版本的 `WinVault-Setup-x64.exe`
+3. 运行安装程序，按提示完成安装
 
-### ⚙️ **系统管理模块**
-- 🔄 **服务控制** - Windows服务的启动、停止、配置管理
-- 📋 **进程监控** - 详细的进程信息和资源使用监控
-- 📝 **注册表** - 安全的注册表查看、编辑和备份
-- 🧹 **系统优化** - 一键清理垃圾文件和优化系统性能
+**方式二：从源码构建**
+```bash
+# 克隆项目
+git clone https://github.com/Fantasy-XY808/WinVault.git
+cd WinVault
 
-### 🛠️ **实用工具集**
-- 💻 **命令工具** - 常用CMD/PowerShell命令的图形化界面
-- 📁 **文件处理** - 批量重命名、格式转换、文件分析
-- 🌐 **网络诊断** - Ping、端口扫描、网络连接测试
-- 🔍 **系统诊断** - 全面的系统健康检查和问题报告
+# 构建项目
+dotnet restore
+dotnet build -c Release
+
+# 运行
+dotnet run -c Release
+```
+
+### 系统要求
+
+| 项目 | 最低要求 | 推荐配置 |
+|:---:|:---:|:---:|
+| **操作系统** | Windows 10 1809+ | Windows 11 |
+| **处理器** | x64 双核 1.8GHz | x64 四核 2.4GHz+ |
+| **内存** | 2GB RAM | 4GB+ RAM |
+| **存储** | 100MB 可用空间 | 500MB+ |
+| **运行时** | .NET 8.0 Runtime | .NET 8.0 SDK |
+
+## 📸 界面预览
+
+<div align="center">
+
+> 界面截图正在准备中，敬请期待...
+
+![WinVault Preview](https://via.placeholder.com/600x400/2d2d2d/ffffff?text=WinVault+界面预览+%7C+即将发布)
+
+</div>
 
 ## 📁 项目结构
 
 ```
 WinVault/
-├── 📁 Assets/           # 应用资源文件
-├── 📁 Constants/        # 应用常量定义
-├── 📁 Controls/         # 自定义控件
-├── 📁 Converters/       # 数据转换器
-├── 📁 Extensions/       # 扩展方法
-├── 📁 Infrastructure/   # 基础架构
-├── 📁 Pages/           # 应用页面
-├── 📁 Services/        # 服务层
-├── 📁 Strings/         # 多语言资源
-├── 📁 ViewModels/      # 视图模型
-├── 📄 App.xaml/.cs     # 应用程序入口
-├── 📄 MainWindow.xaml/.cs # 主窗口
-└── 📄 WinVault.csproj  # 项目文件
+├── 📱 Pages/              # 应用页面
+├── 🎛️ Controls/           # 自定义控件
+├── 📊 ViewModels/         # 视图模型
+├── 🔧 Services/           # 业务服务
+├── 📋 Models/             # 数据模型
+├── 🛠️ Utilities/          # 工具类
+├── 📦 Assets/             # 资源文件
+├── 🧪 Tests/              # 测试项目
+└── 📄 README.md           # 项目说明
 ```
 
-## 🤝 参与贡献
-
-我们欢迎所有形式的贡献！请查看 [贡献指南](CONTRIBUTING.md) 了解详细信息。
-
-### 🚀 **如何贡献**
-
-1. **🍴 Fork项目** - 创建您的项目分支
-2. **🌿 创建分支** - `git checkout -b feature/amazing-feature`
-3. **💻 编写代码** - 遵循项目编码规范
-4. **✅ 测试验证** - 确保所有测试通过
-5. **📝 提交更改** - `git commit -m 'Add amazing feature'`
-6. **🚀 推送分支** - `git push origin feature/amazing-feature`
-7. **🔄 创建PR** - 提交Pull Request
-
-### 🎯 **贡献类型**
-
-- 🐛 **Bug修复** - 发现并修复问题
-- ✨ **新功能** - 添加新的功能特性
-- 📚 **文档改进** - 完善项目文档
-- 🎨 **UI/UX优化** - 改进用户界面和体验
-- 🔧 **性能优化** - 提升应用性能
-- 🌐 **国际化** - 添加多语言支持
-
-## 📞 联系我们
-
-- **🐛 问题报告**: [GitHub Issues](https://github.com/Fantasy-XY808/WinVault/issues)
-- **💡 功能建议**: [GitHub Discussions](https://github.com/Fantasy-XY808/WinVault/discussions)
-- **📚 使用文档**: [Wiki页面](https://github.com/Fantasy-XY808/WinVault/wiki)
-- **💬 社区交流**: [Discussions](https://github.com/Fantasy-XY808/WinVault/discussions)
-
-## 📄 许可证
+## 👥 开发团队
 
 <div align="center">
 
-**本项目基于 GPL v3 许可证开源**
+### 核心贡献者
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
+<table>
+<tr>
+<td align="center">
+<a href="https://github.com/Fantasy-XY808">
+<img src="https://github.com/Fantasy-XY808.png" width="100px;" alt="Fantasy-XY808"/>
+<br />
+<sub><b>Fantasy-XY808</b></sub>
+</a>
+<br />
+<sub>项目创始人 & 主要开发者</sub>
+</td>
+<td align="center">
+<a href="#">
+<img src="https://via.placeholder.com/100x100/f0f0f0/666?text=You" width="100px;" alt="Contributor"/>
+<br />
+<sub><b>等待你的加入</b></sub>
+</a>
+<br />
+<sub>期待更多贡献者</sub>
+</td>
+</tr>
+</table>
 
-[查看完整许可证](LICENSE)
+[![Contributors](https://contrib.rocks/image?repo=Fantasy-XY808/WinVault)](https://github.com/Fantasy-XY808/WinVault/graphs/contributors)
 
----
+### 特别感谢
 
-### ⭐ **如果这个项目对您有帮助，请给我们一个Star！**
-
-<div align="center">
-
-```ascii
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║  🌟 感谢您的支持！您的每一个 Star 都是我们前进的动力！        ║
-║                                                              ║
-║  🏛️ 让我们一起打造更强大的 WinVault 系统宝库！               ║
-║                                                              ║
-║  💝 开源让世界更美好，感谢每一位贡献者！                      ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-```
+- **Microsoft** - 提供WinUI 3框架和.NET平台
+- **开源社区** - 提供技术支持和灵感
+- **所有用户** - 提供反馈和建议
 
 </div>
 
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer&text=Thanks%20for%20visiting!&fontSize=16&fontColor=fff&animation=twinkling&fontAlignY=75"/>
-</p>
+## 📈 开发进度
 
-**让我们一起打造更强大的WinVault系统宝库！**
+### ✅ 已完成
+- [x] 基础架构搭建
+- [x] 硬件信息模块
+- [x] 服务管理模块
+- [x] 现代化UI界面
+
+### 🚧 开发中
+- [/] 系统优化工具
+- [/] 性能监控面板
+- [/] 网络诊断功能
+
+### 📋 计划中
+- [ ] 插件系统
+- [ ] 多语言支持
+- [ ] 自动更新机制
+- [ ] 移动端伴侣应用
+
+## 参与贡献
+
+我们欢迎任何形式的贡献！
+
+### 如何贡献
+
+1. **Fork** 这个项目
+2. 创建你的功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交你的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 打开一个 **Pull Request**
+
+### 贡献指南
+
+- 🐛 **Bug报告**: 发现问题请提交Issue
+- � **功能建议**: 有好想法请告诉我们
+- 📝 **文档改进**: 帮助完善文档
+- 🔧 **代码贡献**: 直接提交PR
+
+## 许可证
+
+本项目采用 [GPL-3.0](LICENSE) 许可证 - 详情请查看 LICENSE 文件
+
+## 联系我们
+
+- **GitHub Issues**: [提交问题](https://github.com/Fantasy-XY808/WinVault/issues)
+- **GitHub Discussions**: [参与讨论](https://github.com/Fantasy-XY808/WinVault/discussions)
+- **Email**: 通过GitHub联系
+
+---
+
+<div align="center">
+
+**如果这个项目对你有帮助，请给个 ⭐ Star 支持一下！**
+
+**Made with ❤️ by [Fantasy-XY808](https://github.com/Fantasy-XY808) and contributors**
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Fantasy-XY808/WinVault&type=Date)](https://star-history.com/#Fantasy-XY808/WinVault&Date)
 
 </div>

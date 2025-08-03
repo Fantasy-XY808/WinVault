@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "WinVault (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "WinVault (Unpackaged)": {
+      "commandName": "Project"
+    },
+    "WinVault": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}

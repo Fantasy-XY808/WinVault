@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml;
 using System;
 using System.Runtime.InteropServices;
 using WinVault.Services;
+using System.Threading.Tasks;
 
 namespace WinVault
 {
@@ -67,17 +68,9 @@ namespace WinVault
         /// </summary>
         public App()
         {
-            try
-            {
-                Current = this;
-                this.InitializeComponent();
-                this.UnhandledException += App_UnhandledException;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"应用程序构造函数异常 Application constructor exception: {ex}");
-                throw;
-            }
+            Current = this;
+            this.InitializeComponent();
+            this.UnhandledException += App_UnhandledException;
         }
 
         /// <summary>
@@ -99,13 +92,82 @@ namespace WinVault
         /// <param name="args">启动激活参数 - 包含命令行参数、文件关联、协议激活等信息 Launch activation arguments - Contains command line parameters, file associations, protocol activations, etc.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
+            System.Diagnostics.Debug.WriteLine("开始启动应用程序 Starting application launch");
+
             try
             {
+                System.Diagnostics.Debug.WriteLine("准备创建主窗口 Preparing to create main window");
+
+                // 创建主窗口
                 MainWindow = new MainWindow();
-                MainWindow.Activate();
+                System.Diagnostics.Debug.WriteLine("主窗口对象创建成功 Main window object created successfully");
+
+                // 检查窗口是否创建成功
+                if (MainWindow == null)
+                {
+                    throw new InvalidOperationException("主窗口创建失败 Main window creation failed");
+                }
+
+                // 确保窗口在UI线程上正确激活
+                System.Diagnostics.Debug.WriteLine("准备激活主窗口 Preparing to activate main window");
+                
+                // 使用Dispatcher确保在UI线程上执行，并添加延迟确保初始化完成
+                MainWindow.DispatcherQueue.TryEnqueue(async () =>
+                {
+                    try
+                    {
+                        // 添加更长的延迟确保窗口完全初始化
+                        await Task.Delay(500);
+                        
+                        // 再次检查窗口状态
+                        if (MainWindow != null && MainWindow.AppWindow != null)
+                        {
+                            System.Diagnostics.Debug.WriteLine("开始激活窗口");
+                            MainWindow.Activate();
+                            System.Diagnostics.Debug.WriteLine("主窗口激活成功 Main window activated successfully");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("窗口已关闭或AppWindow无效，无法激活");
+                            
+                            // 尝试重新创建窗口
+                            if (MainWindow == null || MainWindow.AppWindow == null)
+                            {
+                                System.Diagnostics.Debug.WriteLine("尝试重新创建窗口");
+                                MainWindow = new MainWindow();
+                                await Task.Delay(100);
+                                MainWindow.Activate();
+                            }
+                        }
+                    }
+                    catch (Exception activateEx)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"窗口激活失败: {activateEx.Message}");
+                        System.Diagnostics.Debug.WriteLine($"激活异常堆栈: {activateEx.StackTrace}");
+                        
+                        // 记录激活错误
+                        try
+                        {
+                            var logMessage = $"窗口激活错误 / Window activation error ({DateTime.Now:yyyy-MM-dd HH:mm:ss}):\n" +
+                                           $"类型 / Type: {activateEx.GetType().Name}\n" +
+                                           $"消息 / Message: {activateEx.Message}\n\n" +
+                                           $"{activateEx.StackTrace}";
+                            System.IO.File.WriteAllText("window_activation_error.log", logMessage);
+                        }
+                        catch
+                        {
+                            // 忽略日志写入错误
+                        }
+                        
+                        HandleStartupException(activateEx);
+                    }
+                });
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"应用程序启动异常: {ex}");
+                System.Diagnostics.Debug.WriteLine($"异常堆栈: {ex.StackTrace}");
+
                 HandleStartupException(ex);
             }
         }

@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Text;
 using System;
 using WinVault.Services;
 using WinVault.Constants;
@@ -21,45 +22,83 @@ namespace WinVault
     {
         #region 私有字段 / Private Fields
 
-        /// <summary>
-        /// 设置服务实例，负责应用程序配置管理
-        /// Settings service instance responsible for application configuration management
-        /// </summary>
-        private SettingsService? _settingsService;
+        // 移除未使用的字段以避免警告
 
         #endregion
 
         #region 构造函数 / Constructor
 
-        /// <summary>
-        /// 主窗口构造函数，执行基础UI初始化和服务准备
-        /// Main window constructor performing basic UI initialization and service preparation
-        /// </summary>
         public MainWindow()
         {
+            System.Diagnostics.Debug.WriteLine("MainWindow构造函数开始");
+
             try
             {
-                // 初始化XAML组件和UI元素
-                // Initialize XAML components and UI elements
+                System.Diagnostics.Debug.WriteLine("准备调用InitializeComponent");
                 this.InitializeComponent();
+                System.Diagnostics.Debug.WriteLine("InitializeComponent完成");
 
-                // 设置窗口基本标题
-                // Set window basic title
-                Title = "WinVault";
+                // 不在这里设置标题，避免任何可能的COM异常
+                System.Diagnostics.Debug.WriteLine("跳过标题设置，避免COM异常");
 
-                // 暂时不初始化服务，确保应用程序能启动
-                // Temporarily don't initialize services to ensure app can start
-                System.Diagnostics.Debug.WriteLine("跳过服务初始化 Skipping service initialization");
+                // 延迟绑定Activated事件，确保窗口完全初始化
+                System.Diagnostics.Debug.WriteLine("准备绑定Activated事件");
+                this.Activated += MainWindow_Activated;
+                System.Diagnostics.Debug.WriteLine("Activated事件绑定完成");
 
-                System.Diagnostics.Debug.WriteLine("WinVault基础初始化完成 WinVault basic initialization completed");
+                System.Diagnostics.Debug.WriteLine("MainWindow构造函数完成");
             }
             catch (Exception ex)
             {
-                // 简化的错误处理
-                // Simplified error handling
-                System.Diagnostics.Debug.WriteLine($"MainWindow构造函数错误: {ex.Message}");
-                Title = "WinVault - 初始化错误";
+                System.Diagnostics.Debug.WriteLine($"MainWindow构造函数异常: {ex}");
+                System.Diagnostics.Debug.WriteLine($"异常详情: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"异常堆栈: {ex.StackTrace}");
+                
+                // 记录到日志文件
+                try
+                {
+                    var logMessage = $"MainWindow构造函数错误 / MainWindow constructor error ({DateTime.Now:yyyy-MM-dd HH:mm:ss}):\n" +
+                                   $"类型 / Type: {ex.GetType().Name}\n" +
+                                   $"消息 / Message: {ex.Message}\n\n" +
+                                   $"{ex.StackTrace}";
+                    System.IO.File.WriteAllText("mainwindow_constructor_error.log", logMessage);
+                }
+                catch
+                {
+                    // 忽略日志写入错误
+                }
+                
+                // 记录初始化错误日志
+                LogInitializationError(ex);
+                
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// 记录初始化错误到日志文件
+        /// </summary>
+        /// <param name="ex">捕获的异常</param>
+        private void LogInitializationError(Exception ex)
+        {
+            try
+            {
+                var logMessage = $"MainWindow加载错误 / MainWindow loading error ({DateTime.Now:yyyy-MM-dd HH:mm:ss}):\n" +
+                               $"类型 / Type: {ex.GetType().Name}\n" +
+                               $"消息 / Message: {ex.Message}\n\n";
+                
+                // 添加内部异常信息
+                if (ex.InnerException != null)
+                {
+                    logMessage += $"内部异常 / Inner exception: {ex.InnerException.Message}\n\n";
+                }
+                
+                logMessage += $"{ex.StackTrace}";
+                System.IO.File.WriteAllText("mainwindow_init_error.log", logMessage);
+            }
+            catch
+            {
+                // 忽略日志写入错误
             }
         }
 
@@ -67,161 +106,84 @@ namespace WinVault
 
         #region 事件处理器 / Event Handlers
 
-        // 暂时移除所有事件处理器，简化代码
-        // Temporarily remove all event handlers to simplify code
-
-        #endregion
-
-        #region 公共API方法 / Public API Methods
-
-        /// <summary>
-        /// 类型安全的设置值获取方法 - 提供强类型的配置数据访问和默认值回退机制
-        /// Type-safe setting value retrieval method - Provides strongly-typed configuration data access and default value fallback mechanism
-        ///
-        /// 功能特性 Functional Features:
-        /// - 泛型类型安全保证 Generic type safety guarantee
-        /// - 自动类型转换和验证 Automatic type conversion and validation
-        /// - 默认值回退机制 Default value fallback mechanism
-        /// - 空值安全处理 Null-safe handling
-        ///
-        /// 使用场景 Usage Scenarios:
-        /// - 窗口大小和位置恢复 Window size and position restoration
-        /// - 用户界面主题和偏好设置 UI theme and preference settings
-        /// - 应用程序行为配置 Application behavior configuration
-        /// </summary>
-        /// <typeparam name="T">设置值的数据类型，支持基本类型和复杂对象 Data type of setting value, supports primitive types and complex objects</typeparam>
-        /// <param name="key">设置项的唯一标识符，遵循分层命名约定 Unique identifier of setting item, follows hierarchical naming convention</param>
-        /// <param name="defaultValue">当设置项不存在时返回的默认值 Default value returned when setting item does not exist</param>
-        /// <returns>设置值或默认值，保证类型安全 Setting value or default value, guarantees type safety</returns>
-        public T? GetSetting<T>(string key, T? defaultValue = default)
-        {
-            if (_settingsService == null) return defaultValue;
-            return _settingsService.GetSetting<T>(key, defaultValue!);
-        }
-
-        /// <summary>
-        /// 类型安全的设置值保存方法 - 提供持久化配置数据存储和变更通知机制
-        /// Type-safe setting value saving method - Provides persistent configuration data storage and change notification mechanism
-        ///
-        /// 持久化策略 Persistence Strategy:
-        /// - 即时写入和延迟批量提交 Immediate write and delayed batch commit
-        /// - 数据完整性验证和错误恢复 Data integrity validation and error recovery
-        /// - 变更事件通知和订阅机制 Change event notification and subscription mechanism
-        /// - 多线程安全的并发访问控制 Thread-safe concurrent access control
-        /// </summary>
-        /// <typeparam name="T">设置值的数据类型 Data type of setting value</typeparam>
-        /// <param name="key">设置项的唯一标识符 Unique identifier of setting item</param>
-        /// <param name="value">要保存的设置值 Setting value to be saved</param>
-        public void SaveSetting<T>(string key, T value)
-        {
-            _settingsService?.SaveSetting(key, value);
-        }
-
-        /// <summary>
-        /// 设置重置方法 - 将所有用户配置恢复到默认状态并清理相关缓存
-        /// Settings reset method - Restores all user configurations to default state and clears related caches
-        ///
-        /// 重置范围 Reset Scope:
-        /// - 用户界面偏好设置 User interface preference settings
-        /// - 窗口布局和大小配置 Window layout and size configuration
-        /// - 应用程序行为和功能开关 Application behavior and feature switches
-        /// - 缓存数据和临时状态 Cache data and temporary state
-        ///
-        /// 安全机制 Safety Mechanisms:
-        /// - 重置前的数据备份 Data backup before reset
-        /// - 关键设置的保护机制 Protection mechanism for critical settings
-        /// - 用户确认和撤销功能 User confirmation and undo functionality
-        /// </summary>
-        public void ResetSettings()
-        {
-            _settingsService?.ResetSettings();
-        }
-
-        #endregion
-
-        #region 窗口配置方法 / Window Configuration Methods
-
-        /// <summary>
-        /// 窗口尺寸和位置初始化方法 - 实现窗口状态持久化和用户偏好恢复
-        /// Window size and position initialization method - Implements window state persistence and user preference restoration
-        ///
-        /// 窗口配置策略 Window Configuration Strategy:
-        /// - 从用户设置中恢复窗口尺寸 Restore window size from user settings
-        /// - 智能边界检测和屏幕适配 Intelligent boundary detection and screen adaptation
-        /// - 多显示器支持和DPI感知 Multi-monitor support and DPI awareness
-        /// - 窗口状态持久化和会话恢复 Window state persistence and session restoration
-        ///
-        /// WinUI 3特殊处理 WinUI 3 Special Handling:
-        /// - 使用AppWindow API进行精确尺寸控制 Use AppWindow API for precise size control
-        /// - 处理高DPI和缩放场景 Handle high DPI and scaling scenarios
-        /// - 实现跨平台窗口管理兼容性 Implement cross-platform window management compatibility
-        /// </summary>
-        private void InitializeWindowSize()
+        private void MainWindow_Activated(object sender, WindowActivatedEventArgs e)
         {
             try
             {
-                var width = GetSetting<double>(AppConstants.SettingsKeys.WindowWidth, 1200);
-                var height = GetSetting<double>(AppConstants.SettingsKeys.WindowHeight, 800);
+                System.Diagnostics.Debug.WriteLine("MainWindow已激活，开始安全初始化");
 
-                if (width > 0 && height > 0)
+                // 检查激活状态
+                if (e.WindowActivationState == WindowActivationState.Deactivated)
                 {
-                    // WinUI 3窗口尺寸管理需要特殊处理
-                    // Window size management in WinUI 3 requires special handling
+                    System.Diagnostics.Debug.WriteLine("窗口处于非激活状态，跳过初始化");
+                    return;
                 }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"初始化窗口大小时出错: {ex.Message}");
-            }
-        }
 
-        /// <summary>
-        /// 导航视图配置加载方法 - 根据用户偏好设置导航面板的显示模式和行为
-        /// Navigation view configuration loading method - Sets navigation pane display mode and behavior according to user preferences
-        ///
-        /// 导航面板配置 Navigation Pane Configuration:
-        /// - 显示模式（自动/展开/紧凑/最小化）Display mode (auto/expanded/compact/minimal)
-        /// - 导航项目的可见性和排序 Visibility and ordering of navigation items
-        /// - 导航面板的主题和样式 Theme and styling of navigation pane
-        /// - 导航历史和状态管理 Navigation history and state management
-        ///
-        /// 用户体验优化 User Experience Optimization:
-        /// - 根据屏幕尺寸自动调整 Automatic adjustment based on screen size
-        /// - 保存和恢复用户偏好设置 Save and restore user preference settings
-        /// - 提供一致的导航体验 Provide consistent navigation experience
-        /// </summary>
-        private void LoadNavigationViewSettings()
-        {
-            try
-            {
-                var paneMode = _settingsService?.GetSetting<string>(
-                    AppConstants.SettingsKeys.NavViewMode,
-                    NavigationViewPaneDisplayMode.Auto.ToString()) ?? NavigationViewPaneDisplayMode.Auto.ToString();
-
-                if (Enum.TryParse<NavigationViewPaneDisplayMode>(paneMode, out var mode))
+                // 仅在 Windows 11 (build 22000+) 才调用 Window.Title，避免在 Windows 10 抛出 COMException 导致窗口被关闭
+                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
                 {
-                    // 暂时注释NavView设置，避免初始化时的问题
-                    // Temporarily comment NavView settings to avoid initialization issues
-                    /*
-                    if (NavView != null)
+                    try
                     {
-                        NavView.PaneDisplayMode = mode;
+                        if (this.AppWindow != null && string.IsNullOrEmpty(this.Title))
+                        {
+                            this.Title = "WinVault";
+                            System.Diagnostics.Debug.WriteLine("窗口标题设置完成");
+                        }
                     }
-                    */
-                    System.Diagnostics.Debug.WriteLine($"导航视图模式设置为: {mode}");
+                    catch (Exception titleEx)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"设置标题时出错: {titleEx.Message}");
+                        // 忽略标题设置错误
+                    }
                 }
+
+                // 检查窗口是否仍然有效
+                if (this == null || this.Content == null || this.AppWindow == null)
+                {
+                    System.Diagnostics.Debug.WriteLine("窗口已无效，跳过NavigationView初始化");
+                    return;
+                }
+
+                // 安全地初始化NavigationView
+                try
+                {
+                    if (NavView?.MenuItems?.Count > 0)
+                    {
+                        NavView.SelectedItem = NavView.MenuItems[0];
+                        System.Diagnostics.Debug.WriteLine("NavigationView初始化完成");
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("NavigationView未找到或为空");
+                    }
+                }
+                catch (Exception navEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"NavigationView初始化出错: {navEx.Message}");
+                    // 不抛出异常，继续执行
+                }
+
+                System.Diagnostics.Debug.WriteLine("MainWindow激活完成");
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"加载导航视图设置时出错: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"MainWindow_Activated异常: {ex}");
+                // 记录详细错误信息到日志文件
+                try
+                {
+                    var logMessage = $"MainWindow激活错误 / MainWindow activation error ({DateTime.Now:yyyy-MM-dd HH:mm:ss}):\n" +
+                                   $"类型 / Type: {ex.GetType().Name}\n" +
+                                   $"消息 / Message: {ex.Message}\n\n" +
+                                   $"{ex.StackTrace}";
+                    System.IO.File.WriteAllText("mainwindow_activation_error.log", logMessage);
+                }
+                catch
+                {
+                    // 忽略日志写入错误
+                }
             }
         }
 
-        #endregion
-
-        /// <summary>
-        /// NavigationView选择变化事件处理
-        /// </summary>
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             try
@@ -231,8 +193,8 @@ namespace WinVault
                     var tag = item.Tag?.ToString();
                     if (!string.IsNullOrEmpty(tag))
                     {
-                        // _navigationService?.NavigateTo(tag!); // 暂时注释，服务未初始化
-                        System.Diagnostics.Debug.WriteLine($"尝试导航到: {tag}");
+                        System.Diagnostics.Debug.WriteLine($"导航到: {tag}");
+                        NavigateToPage(tag);
                     }
                 }
             }
@@ -242,15 +204,15 @@ namespace WinVault
             }
         }
 
-        /// <summary>
-        /// NavigationView后退按钮事件处理
-        /// </summary>
         private void NavigationView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
             try
             {
-                // _navigationService?.GoBack(); // 暂时注释，服务未初始化
-                System.Diagnostics.Debug.WriteLine("尝试返回上一页");
+                if (ContentFrame?.CanGoBack == true)
+                {
+                    ContentFrame.GoBack();
+                }
+                System.Diagnostics.Debug.WriteLine("返回上一页");
             }
             catch (Exception ex)
             {
@@ -258,72 +220,146 @@ namespace WinVault
             }
         }
 
-        /// <summary>
-        /// NavigationView加载完成事件处理
-        /// </summary>
-        private void NavigationView_Loaded(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                // NavigationView加载完成后的处理
-                System.Diagnostics.Debug.WriteLine("NavigationView加载完成");
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"NavigationView加载时出错: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// 窗口大小变化事件处理
-        /// </summary>
-        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs args)
-        {
-            try
-            {
-                // 保存窗口大小到设置
-                SaveSetting(AppConstants.SettingsKeys.WindowWidth, args.Size.Width);
-                SaveSetting(AppConstants.SettingsKeys.WindowHeight, args.Size.Height);
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"窗口大小变化处理时出错: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// ContentFrame导航事件处理
-        /// </summary>
-        private void ContentFrame_Navigated(object sender, NavigationEventArgs e)
-        {
-            try
-            {
-                // 更新导航视图的选中状态
-                // 这里可以添加更多的导航状态管理逻辑
-                System.Diagnostics.Debug.WriteLine($"导航到页面: {e.SourcePageType?.Name}");
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"内容框架导航时出错: {ex.Message}");
-            }
-        }
-
-        /// <summary>
-        /// ContentFrame导航失败事件处理
-        /// </summary>
         private void ContentFrame_NavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine($"导航失败: {e.SourcePageType?.Name ?? "Unknown"} - {e.Exception?.Message ?? "Unknown"}");
+                System.Diagnostics.Debug.WriteLine($"导航失败: {e.SourcePageType?.Name ?? "Unknown"}");
 
-                // 暂时不进行回退导航，避免引用未初始化的服务
-                // Temporarily don't perform fallback navigation to avoid referencing uninitialized services
+                // 导航到默认页面
+                NavigateToPage("home");
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"处理导航失败时出错: {ex.Message}");
             }
         }
+
+        #endregion
+
+        #region 导航方法 / Navigation Methods
+
+        private void NavigateToPage(string pageTag)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine($"尝试导航到页面: {pageTag}");
+
+                // 暂时不进行实际页面导航，只显示信息
+                ShowPageContent(pageTag);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"页面导航异常: {ex.Message}");
+                ShowErrorContent($"导航到 {pageTag} 页面时出错: {ex.Message}");
+            }
+        }
+
+        private void ShowPageContent(string pageTag)
+        {
+            try
+            {
+                if (ContentFrame != null)
+                {
+                    var page = new Page();
+                    var stackPanel = new StackPanel
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    string pageTitle = pageTag switch
+                    {
+                        "home" => "主页",
+                        "hardware" => "硬件信息",
+                        "services" => "服务管理",
+                        "commandquery" => "命令查询",
+                        "quicksettings" => "快速设置",
+                        "exetools" => "工具箱",
+                        "settings" => "设置",
+                        "about" => "关于",
+                        _ => "未知页面"
+                    };
+
+                    stackPanel.Children.Add(new TextBlock
+                    {
+                        Text = pageTitle,
+                        FontSize = 32,
+                        FontWeight = FontWeights.Bold,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Margin = new Thickness(0, 0, 0, 20)
+                    });
+
+                    stackPanel.Children.Add(new TextBlock
+                    {
+                        Text = $"这里是 {pageTitle} 页面内容",
+                        FontSize = 16,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Margin = new Thickness(0, 0, 0, 20)
+                    });
+
+                    stackPanel.Children.Add(new TextBlock
+                    {
+                        Text = "页面功能正在开发中...",
+                        FontSize = 14,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Gray)
+                    });
+
+                    page.Content = stackPanel;
+                    ContentFrame.Content = page;
+
+                    System.Diagnostics.Debug.WriteLine($"成功显示 {pageTitle} 页面内容");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"显示页面内容时出错: {ex.Message}");
+            }
+        }
+
+        private void ShowErrorContent(string errorMessage)
+        {
+            try
+            {
+                if (ContentFrame != null)
+                {
+                    // 创建一个简单的错误显示
+                    var errorPage = new Page();
+                    var stackPanel = new StackPanel
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    stackPanel.Children.Add(new TextBlock
+                    {
+                        Text = "页面加载错误",
+                        FontSize = 24,
+                        FontWeight = FontWeights.Bold,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        Margin = new Thickness(0, 0, 0, 20)
+                    });
+
+                    stackPanel.Children.Add(new TextBlock
+                    {
+                        Text = errorMessage,
+                        FontSize = 14,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        TextWrapping = TextWrapping.Wrap,
+                        MaxWidth = 400
+                    });
+
+                    errorPage.Content = stackPanel;
+                    ContentFrame.Content = errorPage;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"显示错误内容时出错: {ex.Message}");
+            }
+        }
+
+        #endregion
     }
 }

@@ -6,32 +6,46 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>WinVault</RootNamespace>
     <UseWinUI>true</UseWinUI>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <SupportedCultures>en-US</SupportedCultures>
+    <GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
+    <GenerateAppxBundleOnBuild>false</GenerateAppxBundleOnBuild>
     <Nullable>enable</Nullable>
-    <PublishAot>false</PublishAot>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x64;x86;ARM64</Platforms>
-    <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
-    <SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
-    
-    <!-- 配置为非打包应用程序以避免程序包标识符问题 -->
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+
+    <!-- 非打包配置 -->
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <WindowsPackageType>None</WindowsPackageType>
-    <UseWinUIHosting>true</UseWinUIHosting>
-    <GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
     <EnableMsixTooling>false</EnableMsixTooling>
-    <AppxGeneratePriEnabled>false</AppxGeneratePriEnabled>
-    <GenerateAppInstallerFile>false</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>false</AppxAutoIncrementPackageRevision>
-    <EnableDefaultPriItems>false</EnableDefaultPriItems>
-    <DisableXbfGeneration>true</DisableXbfGeneration>
-    <GenerateLibraryLayout>false</GenerateLibraryLayout>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <!-- 重新启用 PRI，但彻底禁用 Packaging 相关合并，避免 PRI224 -->
+    <AppxGeneratePriEnabled>true</AppxGeneratePriEnabled>
+    <PriDisablePackagingSupport>true</PriDisablePackagingSupport>
+    <PriSkipDefaultPriConfigGeneration>true</PriSkipDefaultPriConfigGeneration>
+    
+    <!-- 添加调试和错误处理配置 -->
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <ErrorReport>prompt</ErrorReport>
+    
+    <!-- 添加稳定性配置 -->
+    <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
+    <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
+    <EventSourceSupport>false</EventSourceSupport>
+    <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
+    <UseSystemResourceKeys>false</UseSystemResourceKeys>
+    <!-- 移除 snippet 路径属性 -->
+    <!-- 使用自定义最小 Pri 配置 -->
+    <AppxPriConfigXmlPath>PriConfig.xml</AppxPriConfigXmlPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
+    <!-- 使用稳定版 Windows App SDK 1.4 以避免 1.5 预览版在非 Insider 系统上出现 0xc000027b / 模块丢失 问题 -->
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
+    <!-- 使用与 Windows 22H2 对应的稳定版 BuildTools 避免编译时 API 缺失 -->
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" PrivateAssets="all" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Serilog" Version="4.1.0" />
@@ -40,17 +54,8 @@
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-    <Content Include="Assets\*.png" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <PRIResource Include="Strings\**\*.resw" />
-  </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Package.appxmanifest" />
-  </ItemGroup>
+
 
 </Project>

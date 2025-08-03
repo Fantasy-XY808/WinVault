@@ -4,6 +4,7 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
+    <!-- 选择普通桌面启动配置 -->
     <ActiveDebugProfile>WinVault</ActiveDebugProfile>
   </PropertyGroup>
 </Project>
