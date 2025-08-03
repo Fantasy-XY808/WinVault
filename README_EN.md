@@ -192,7 +192,6 @@ WinVault/
 - [ ] Plugin system
 - [ ] Multi-language support
 - [ ] Auto-update mechanism
-- [ ] Mobile companion app
 
 ## 🤝 Contributing
 
