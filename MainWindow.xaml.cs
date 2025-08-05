@@ -245,8 +245,28 @@ namespace WinVault
             {
                 System.Diagnostics.Debug.WriteLine($"尝试导航到页面: {pageTag}");
 
-                // 暂时不进行实际页面导航，只显示信息
-                ShowPageContent(pageTag);
+                Type pageType = pageTag switch
+                {
+                    "home" => typeof(Pages.HomePage),
+                    "hardware" => typeof(Pages.HardwarePage),
+                    "services" => typeof(Pages.ServicesPage),
+                    "commandquery" => typeof(Pages.CommandQueryPage),
+                    "quicksettings" => typeof(Pages.QuickSettingsPage),
+                    "exetools" => typeof(Pages.ExeToolsPage),
+                    "settings" => typeof(Pages.SettingsPage),
+                    "about" => typeof(Pages.AboutPage),
+                    _ => null
+                };
+
+                if (pageType != null)
+                {
+                    ContentFrame.Navigate(pageType);
+                    System.Diagnostics.Debug.WriteLine($"成功导航到 {pageType.Name}");
+                }
+                else
+                {
+                    ShowErrorContent($"未找到页面: {pageTag}");
+                }
             }
             catch (Exception ex)
             {
