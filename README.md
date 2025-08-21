@@ -163,7 +163,7 @@ WinVault/
 </td>
 <td align="center">
 <a href="#">
-<img src="https://via.placeholder.com/100x100/f0f0f0/666?text=You" width="100px;" alt="Contributor"/>
+<img src="https://pngimg.com/uploads/github/github_PNG20.png" width="100px;" alt="Contributor"/>
 <br />
 <sub><b>等待你的加入</b></sub>
 </a>
