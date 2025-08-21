@@ -5,13 +5,15 @@
 </div>
 
 <p align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=300&section=header&text={Welcome to our project}&fontSize=90&fontAlign=50&fontAlignY=30&desc={WinVault}&descAlign=50&descSize=30&descAlignY=60&animation=twinkling" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=300&section=header&text=Welcome&fontSize=90&fontAlign=50&fontAlignY=30&desc=WinVault&descAlign=50&descSize=30&descAlignY=60&animation=twinkling" />
 </p>
 
 <div align="center">
 
 # 🏛️ WinVault 🏛️  
-## 现代化 Windows 系统管理利器
+### 现代化的 Windows 系统优化利器
+
+</div>
 
 ```ascii
 ██╗    ██╗██╗███╗   ██╗██╗   ██╗ █████╗ ██╗   ██╗██╗  ████████╗ 
@@ -19,11 +21,11 @@
 ██║ █╗ ██║██║██╔██╗ ██║██║   ██║███████║██║   ██║██║     ██║   
 ██║███╗██║██║██║╚██╗██║╚██╗ ██╔╝██╔══██║██║   ██║██║     ██║   
 ╚███╔███╔╝██║██║ ╚████║ ╚████╔╝ ██║  ██║╚██████╔╝███████╗██║   
- ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝   
+ ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝  ╚═══╝  ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═╝ 
 ```
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&width=500&lines=🏛️+专业Windows管理工具;⚡+WinUI+3+现代化界面;🔧+开源免费使用;💎+持续更新维护" alt="Dynamic Typing" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&width=500&lines=专业的 Windows 优化工具;现代化的 WinUI3 界面;全部开源免费使用;长期持续更新维护;快速系统优化管理;超多实用免费软件" alt="Dynamic Typing" />
 </p>
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)  
@@ -37,7 +39,7 @@
 
 **让 Windows 系统管理变得简单而强大 — 现代化工具首选**
 
-[📥 立即下载](https://github.com/Fantasy-XY808/WinVault/releases) | [📖 使用文档](#✨-功能介绍) | [🤝 参与贡献](#参与贡献) | [💬 问题反馈](https://github.com/Fantasy-XY808/WinVault/issues)
+[立即下载](https://github.com/Fantasy-XY808/WinVault/releases) | [使用文档](#功能介绍) | [参与贡献](#参与贡献) | [问题反馈](https://github.com/Fantasy-XY808/WinVault/issues)
 
 </div>
 
@@ -46,7 +48,7 @@
 ## ✨ 功能介绍
 
 ### 🖥️ 系统信息
-- **硬件检测**：CPU、内存、显卡、存储设备详细信息一览无遗
+- **硬件检测**：设备的CPU、内存、显卡、存储等详细信息一览无遗
 - **实时监控**：温度、使用率、性能指标动态展示
 - **系统报告**：一键生成完整系统配置报告，方便诊断与分享
 
@@ -58,12 +60,12 @@
 ### 🔧 实用工具
 - **命令行工具**：CMD 和 PowerShell 常用命令图形化操作，零门槛使用
 - **快速设置**：一键直达系统设置，节省查找时间
-- **系统清理**：智能清理临时文件和系统垃圾，释放磁盘空间
+- **系统清理**：轻松清理临时文件和系统垃圾，释放磁盘空间
 
 ### 🎨 界面特色
-- **现代设计**：基于 WinUI 3 的 Fluent Design，界面美观流畅
+- **现代设计**：基于 WinUI 3 的 Fluent Design UI，界面美观流畅
 - **响应式布局**：兼容多种屏幕尺寸，使用体验自适应
-- **主题支持**：支持浅色与深色主题自由切换，保护视力
+- **主题支持**：支持浅色与深色主题等更多主题自由切换，保护视力
 
 ---
 
@@ -74,12 +76,12 @@
 | 技术栈 | 版本 | 说明 |
 |:-------:|:----:|:----:|
 | **WinUI 3** | 1.5+ | 现代 Windows 应用界面框架，流畅体验 |
-| **.NET** | 8.0 | 高性能跨平台运行时，稳定高效 |
+| **.NET** | 8.0 | 高性能原生架构，稳定高效 |
 | **C#** | 12.0 | 现代编程语言特性，代码简洁易维护 |
 | **MVVM** | — | 清晰分层架构，提升开发效率 |
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=cs,dotnet,visualstudio,git,github,windows" alt="Tech icons" />
+  <img src="https://skillicons.dev/icons?i=cs,dotnet,visualstudio,github,windows" alt="Tech icons" />
 </p>
 
 </div>
@@ -117,8 +119,8 @@ dotnet run -c Release
 |:-----|:---------|:---------|
 | **操作系统** | Windows 10 1809 及以上 | Windows 11 |
 | **处理器** | x64 双核 1.8GHz | x64 四核 2.4GHz 及以上 |
-| **内存** | 2GB RAM | 4GB+ RAM |
-| **存储空间** | 100MB 可用空间 | 500MB 以上 |
+| **内存** | 2GB RAM | 8GB+ RAM |
+| **存储空间** | 100MB 可用空间 | 1GB 以上 |
 | **运行时** | .NET 8.0 Runtime | .NET 8.0 SDK |
 
 ---
@@ -129,7 +131,7 @@ dotnet run -c Release
 
 > 界面截图即将发布，敬请期待！
 
-![WinVault Preview](https://via.placeholder.com/600x400/2d2d2d/ffffff?text=WinVault+界面预览+%7C+即将发布)
+<!-- ![WinVault Preview](https://via.placeholder.com/600x400/2d2d2d/ffffff?text=WinVault+界面预览+%7C+即将发布) -->
 
 </div>
 
@@ -139,15 +141,15 @@ dotnet run -c Release
 
 ```text
 WinVault/
-├── 📱 Pages/              # 应用页面
-├── 🎛️ Controls/           # 自定义控件
-├── 📊 ViewModels/         # 视图模型
-├── 🔧 Services/           # 业务服务
-├── 📋 Models/             # 数据模型
-├── 🛠️ Utilities/          # 工具类
-├── 📦 Assets/             # 资源文件
-├── 🧪 Tests/              # 测试项目
-└── 📄 README.md           # 项目说明
+├── Pages/              # 应用页面
+├── Controls/           # 自定义控件
+├── ViewModels/         # 视图模型
+├── Services/           # 业务服务
+├── Models/             # 数据模型
+├── Utilities/          # 工具类
+├── Assets/             # 资源文件
+├── Tests/              # 测试项目
+└── README.md           # 项目说明
 ```
 
 ---
@@ -198,6 +200,8 @@ WinVault/
 - **开源社区** - 持续贡献技术支持与灵感  
 - **所有用户** - 反馈建议让项目不断完善  
 
+<img width="800" src="https://github-readme-activity-graph.vercel.app/graph?username={Fantasy_XY808}&theme=github-compact&hide_border=true&area=true" />
+
 </div>
 
 ---
@@ -214,7 +218,7 @@ WinVault/
 
 ## 🤝 参与贡献
 
-欢迎任何形式的贡献！
+欢迎不损害任何个人/集体名义等的各种形式的贡献！
 
 ### 如何贡献
 
@@ -229,7 +233,7 @@ WinVault/
 - 🐛 **Bug 报告**：发现问题请提交 Issue  
 - 💡 **功能建议**：有好点子欢迎提出  
 - 📝 **文档改进**：帮助完善文档内容  
-- 🔧 **代码贡献**：欢迎直接提交 PR  
+- 🔧 **代码贡献**：热烈欢迎直接提交 PR  <!-- 😋😋😋 -->
 
 ---
 
@@ -251,7 +255,9 @@ WinVault/
 
 ⭐ **如果本项目对你有帮助，欢迎给我们一个 Star 支持！** ⭐
 
-Made with ❤️ by [Fantasy-XY808](https://github.com/Fantasy-XY808) and contributors
+项目创始人兼主要开发者—— [Fantasy_XY808](https://github.com/Fantasy-XY808) 
+
+## 历史Star
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Fantasy-XY808/WinVault&type=Date)](https://star-history.com/#Fantasy-XY808/WinVault&Date)
 
@@ -260,4 +266,3 @@ Made with ❤️ by [Fantasy-XY808](https://github.com/Fantasy-XY808) and contri
 </p>
 
 </div>
-```
