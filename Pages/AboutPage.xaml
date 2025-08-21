@@ -2,11 +2,10 @@
 <Page
     x:Class="WinVault.Pages.AboutPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WinVault.Pages"
-    xmlns:controls="using:WinVault.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:WinVault.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -29,21 +28,77 @@
             <StackPanel Spacing="20">
                 <InfoBar
                     Title="版本信息"
-                    Message="当前版本: 1.0.0"
+                    Message="当前版本: Beta 1.5.0（内部测试版，请勿随意分发）"
                     Severity="Informational"
                     IsOpen="True"
                     IsClosable="False"/>
 
-                <TextBlock TextWrapping="Wrap">
-                    WinVault是一个简单易用的Windows系统工具集合，帮助用户快速管理和优化Windows系统。
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <TextBlock Text="WinVault:现代化的 Windows 系统优化与管理中心"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               Margin="0,0,0,5"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="WinVault 整合了一系列强大功能，助您深入掌控 Windows 系统，提升性能与视觉体验。"
+                               FontSize="14"
+                               FontWeight="Bold"
+                               Margin="0,0,0,10"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="核心功能："
+                               FontSize="14"
+                               FontWeight="Bold"
+                               Margin="0,0,0,5"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="√ 硬件信息查询：获取详细的系统组件配置信息。"
+                               Margin="20,0,0,3"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="√ 系统服务管理：直观地启动、停止、禁用或启用服务。"
+                               Margin="20,0,0,3"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="√ 指令快速查询：内置常用 CMD/PowerShell 命令速查手册。"
+                               Margin="20,0,0,3"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="√ 系统快捷优化：一键应用安全有效的性能优化设置。"
+                               Margin="20,0,0,3"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="√ 系统界面美化：轻松自定义 Windows 视觉外观。"
+                               Margin="20,0,0,3"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="√ 系统…………"
+                               Margin="20,0,0,10"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="WinVault 旨在简化复杂的系统管理任务，让优化 Windows 变得高效、直观，释放您的设备潜力并打造个性化的桌面环境。"
+                               Margin="0,5,0,0"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+
+                <TextBlock TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}">
+                    开发于 2024  WinVault（Beta 1.5）制作于 Fantasy_XY808  免费开源于 Github
+                </TextBlock>
+
+                <TextBlock TextWrapping="Wrap" Margin="10">
+                    <Run Text="如果喜欢，欢迎给"/>
+                    <Hyperlink NavigateUri="https://github.com/Fantasy-XY808/WinVault">
+                        <Run Text="项目"/>
+                    </Hyperlink>
+                    <Run Text="来一个Star，也十分欢迎为"/>
+                    <Hyperlink NavigateUri="https://github.com/Fantasy-XY808/WinVault/pulls">
+                        <Run Text="项目提供PR贡献"/>
+                    </Hyperlink>
+                    <Run Text="！一起为项目添砖加瓦！"/>
                 </TextBlock>
 
                 <TextBlock TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}">
-                    此应用程序使用WinUI 3开发，提供现代化的用户界面和丰富的功能体验。
-                </TextBlock>
-
-                <TextBlock TextWrapping="Wrap" Style="{ThemeResource BodyTextBlockStyle}">
-                    © 2024 WinVault 保留所有权利
+                        或者说……请我来杯伯牙绝弦（其实三拼霸霸奶茶也可以）😋！
                 </TextBlock>
             </StackPanel>
         </ScrollViewer>

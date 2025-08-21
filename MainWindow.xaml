@@ -38,27 +38,27 @@ Purpose: Main application window with modern navigation interface,
                 </NavigationViewItem>
                 <NavigationViewItem Content="硬件信息" Tag="hardware">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE770;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE977;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="服务管理" Tag="services">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7BA;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81e;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="命令查询" Tag="commandquery">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE756;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="快捷设置" Tag="quicksettings">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE835;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Content="工具箱" Tag="exetools">
                     <NavigationViewItem.Icon>
-                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;"/>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE74C;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>

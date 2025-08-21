@@ -60,7 +60,7 @@
                             <FontIcon Glyph="&#xE946;" FontSize="32" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
                             <StackPanel>
                                 <TextBlock Text="WinVault" FontWeight="SemiBold" FontSize="18"/>
-                                <TextBlock Text="版本 1.0.0" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                                <TextBlock Text="版本： Beta 1.5.0" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
                             </StackPanel>
                         </StackPanel>
 
