@@ -153,13 +153,13 @@ WinVault/
 <br />
 <sub>项目创始人 & 主要开发者</sub>
 <td align="center">
-<a href="https://github.com/Fantasy-XY808">
-<img src="https://github.com/Fantasy-XY808.png" width="100px;" alt="Fantasy-XY808"/>
+<a href="https://github.com/AngelShadow2017">
+<img src="https://github.com/AngelShadow2017.png" width="100px;" alt="AngelShadow2017"/>
 <br />
-<sub><b>Fantasy-XY808</b></sub>
+<sub><b>AngelShadow2017</b></sub>
 </a>
 <br />
-<sub>项目创始人 & 主要开发者</sub>
+<sub>项目前期维护者</sub>
 </td>
 <td align="center">
 <a href="#">
