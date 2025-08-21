@@ -6,12 +6,16 @@
 
 <div align="center">
 
-# 🏛️ WinVault
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=300&&section=header&text={Welcome to our project}&fontSize=90&fontAlign=50&fontAlignY=30&desc={WinVault}&descAlign=50&descSize=30&descAlignY=60&animation=twinkling" />
+</p>
+
+# 🏛️ WinVault 🏛️
 ## 现代化Windows系统管理工具
 
 ```ascii
-██╗    ██╗██╗███╗   ██╗██╗   ██╗ █████╗ ██╗   ██╗██╗  ████████╗
-██║    ██║██║████╗  ██║██║   ██║██╔══██╗██║   ██║██║  ╚══██╔══╝
+██╗    ██╗██╗███╗   ██╗██╗   ██╗ █████╗ ██╗   ██╗██╗  ████████╗ 
+██║    ██║██║████╗  ██║██║   ██║██╔══██╗██║   ██║██║  ╚══██╔══╝ 
 ██║ █╗ ██║██║██╔██╗ ██║██║   ██║███████║██║   ██║██║     ██║
 ██║███╗██║██║██║╚██╗██║╚██╗ ██╔╝██╔══██║██║   ██║██║     ██║
 ╚███╔███╔╝██║██║ ╚████║ ╚████╔╝ ██║  ██║╚██████╔╝███████╗██║
@@ -19,7 +23,7 @@
 ```
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&width=500&lines=🏛️+专业Windows管理工具;⚡+WinUI+3+现代界面;🔧+开源免费使用;💎+持续更新维护" alt="Dynamic Typing" />
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&width=500&lines=🏛️+专业Windows管理工具;⚡+WinUI+3+现代化界面;🔧+开源免费使用;💎+持续更新维护" alt="Dynamic Typing" />
 </p>
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
@@ -117,7 +121,7 @@ dotnet run -c Release
 
 > 界面截图正在准备中，敬请期待...
 
-![WinVault Preview](https://via.placeholder.com/600x400/2d2d2d/ffffff?text=WinVault+界面预览+%7C+即将发布)
+# ![WinVault Preview](https://via.placeholder.com/600x400/2d2d2d/ffffff?text=WinVault+界面预览+%7C+即将发布)
 
 </div>
 
@@ -239,5 +243,9 @@ WinVault/
 **Made with ❤️ by [Fantasy-XY808](https://github.com/Fantasy-XY808) and contributors**
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Fantasy-XY808/WinVault&type=Date)](https://star-history.com/#Fantasy-XY808/WinVault&Date)
+
+<p align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=300&&section=footer&text={WinVault}&fontSize=90&fontAlign=50&fontAlignY=70&desc={By Fantasy_XY808 and others}&descAlign=50&descSize=30&descAlignY=40&animation=twinkling" />
+</p>
 
 </div>
