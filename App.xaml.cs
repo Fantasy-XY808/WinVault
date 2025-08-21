@@ -3,6 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using WinVault.Services;
 using System.Threading.Tasks;
+using Serilog.Events;
 
 namespace WinVault
 {
@@ -68,9 +69,22 @@ namespace WinVault
         /// </summary>
         public App()
         {
-            Current = this;
-            this.InitializeComponent();
-            this.UnhandledException += App_UnhandledException;
+            try
+            {
+                // 启动诊断
+                StartupDiagnostics.RunFullDiagnostics();
+                
+                Current = this;
+                this.InitializeComponent();
+                this.UnhandledException += App_UnhandledException;
+                
+                StartupDiagnostics.Log("App构造函数完成 / App constructor completed");
+            }
+            catch (Exception ex)
+            {
+                StartupDiagnostics.LogException(ex, "App构造函数失败");
+                throw;
+            }
         }
 
         /// <summary>
@@ -98,76 +112,98 @@ namespace WinVault
             {
                 System.Diagnostics.Debug.WriteLine("准备创建主窗口 Preparing to create main window");
 
-                // 创建主窗口
-                MainWindow = new MainWindow();
-                System.Diagnostics.Debug.WriteLine("主窗口对象创建成功 Main window object created successfully");
-
-                // 检查窗口是否创建成功
-                if (MainWindow == null)
+                // 分步骤创建主窗口，每步都有错误处理
+                MainWindow? mainWindow = null;
+                try
                 {
-                    throw new InvalidOperationException("主窗口创建失败 Main window creation failed");
+                    mainWindow = new MainWindow();
+                    MainWindow = mainWindow;
+                    System.Diagnostics.Debug.WriteLine("主窗口创建成功 Main window created successfully");
+                }
+                catch (Exception windowEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"主窗口创建失败: {windowEx.Message}");
+                    System.Diagnostics.Debug.WriteLine($"主窗口创建异常堆栈: {windowEx.StackTrace}");
+                    HandleStartupException(windowEx);
+                    return;
                 }
 
-                // 确保窗口在UI线程上正确激活
-                System.Diagnostics.Debug.WriteLine("准备激活主窗口 Preparing to activate main window");
-                
-                // 使用Dispatcher确保在UI线程上执行，并添加延迟确保初始化完成
-                MainWindow.DispatcherQueue.TryEnqueue(async () =>
+                // 分步骤初始化服务
+                try
                 {
-                    try
+                    // 应用主题
+                    ThemeService.Instance.ApplyThemeFromSettings(mainWindow);
+                    System.Diagnostics.Debug.WriteLine("主题应用成功 Theme applied successfully");
+                }
+                catch (Exception themeEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"主题应用失败: {themeEx.Message}");
+                    // 继续执行，不中断启动
+                }
+
+                try
+                {
+                    // 初始化托盘
+                    TrayService.Instance.Initialize(mainWindow);
+                    System.Diagnostics.Debug.WriteLine("托盘初始化成功 Tray initialized successfully");
+                }
+                catch (Exception trayEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"托盘初始化失败: {trayEx.Message}");
+                    // 继续执行，不中断启动
+                }
+
+                try
+                {
+                    // 遥测：启动一次
+                    TelemetryService.Instance.Track("app_launch", "ok");
+                    System.Diagnostics.Debug.WriteLine("遥测记录成功 Telemetry tracked successfully");
+                }
+                catch (Exception telemetryEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"遥测记录失败: {telemetryEx.Message}");
+                    // 继续执行，不中断启动
+                }
+
+                // 启动时总是先激活窗口，再根据设置延时隐藏到托盘，避免未激活即隐藏导致进程退出
+                try
+                {
+                    var settings = SettingsService.Instance;
+                    bool startMinimized = settings.GetSetting("StartMinimized", false);
+
+                    mainWindow.DispatcherQueue.TryEnqueue(async () =>
                     {
-                        // 添加更长的延迟确保窗口完全初始化
-                        await Task.Delay(500);
-                        
-                        // 再次检查窗口状态
-                        if (MainWindow != null && MainWindow.AppWindow != null)
-                        {
-                            System.Diagnostics.Debug.WriteLine("开始激活窗口");
-                            MainWindow.Activate();
-                            System.Diagnostics.Debug.WriteLine("主窗口激活成功 Main window activated successfully");
-                        }
-                        else
-                        {
-                            System.Diagnostics.Debug.WriteLine("窗口已关闭或AppWindow无效，无法激活");
-                            
-                            // 尝试重新创建窗口
-                            if (MainWindow == null || MainWindow.AppWindow == null)
-                            {
-                                System.Diagnostics.Debug.WriteLine("尝试重新创建窗口");
-                                MainWindow = new MainWindow();
-                                await Task.Delay(100);
-                                MainWindow.Activate();
-                            }
-                        }
-                    }
-                    catch (Exception activateEx)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"窗口激活失败: {activateEx.Message}");
-                        System.Diagnostics.Debug.WriteLine($"激活异常堆栈: {activateEx.StackTrace}");
-                        
-                        // 记录激活错误
                         try
                         {
-                            var logMessage = $"窗口激活错误 / Window activation error ({DateTime.Now:yyyy-MM-dd HH:mm:ss}):\n" +
-                                           $"类型 / Type: {activateEx.GetType().Name}\n" +
-                                           $"消息 / Message: {activateEx.Message}\n\n" +
-                                           $"{activateEx.StackTrace}";
-                            System.IO.File.WriteAllText("window_activation_error.log", logMessage);
+                            // 激活窗口
+                            mainWindow?.Activate();
+                            System.Diagnostics.Debug.WriteLine("窗口激活成功 Window activated successfully");
+
+                            if (startMinimized)
+                            {
+                                await Task.Delay(800);
+                                TrayService.Instance.HideToTray();
+                                System.Diagnostics.Debug.WriteLine("窗口已隐藏到托盘 Window hidden to tray");
+                            }
                         }
-                        catch
+                        catch (Exception activateEx)
                         {
-                            // 忽略日志写入错误
+                            System.Diagnostics.Debug.WriteLine($"窗口激活失败: {activateEx.Message}");
+                            System.Diagnostics.Debug.WriteLine($"窗口激活异常堆栈: {activateEx.StackTrace}");
+                            HandleStartupException(activateEx);
                         }
-                        
-                        HandleStartupException(activateEx);
-                    }
-                });
+                    });
+                }
+                catch (Exception activationEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"窗口激活设置失败: {activationEx.Message}");
+                    HandleStartupException(activationEx);
+                }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"应用程序启动异常: {ex}");
-                System.Diagnostics.Debug.WriteLine($"异常堆栈: {ex.StackTrace}");
-
+                System.Diagnostics.Debug.WriteLine($"启动异常堆栈: {ex.StackTrace}");
                 HandleStartupException(ex);
             }
         }
@@ -191,14 +227,85 @@ namespace WinVault
         private void HandleStartupException(Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"应用程序启动失败 Application startup failed: {ex}");
+            System.Diagnostics.Debug.WriteLine($"启动失败异常堆栈: {ex.StackTrace}");
 
+            // 记录启动失败到文件
             try
             {
-                var errorWindow = new Window { Title = "WinVault - 启动错误 Startup Error" };
-                errorWindow.Activate();
+                var logMessage = $"应用程序启动失败 / Application startup failed ({DateTime.Now:yyyy-MM-dd HH:mm:ss}):\n" +
+                               $"类型 / Type: {ex.GetType().Name}\n" +
+                               $"消息 / Message: {ex.Message}\n\n" +
+                               $"{ex.StackTrace}";
+                System.IO.File.WriteAllText("startup_failure.log", logMessage);
             }
             catch
             {
+                // 忽略日志写入错误
+            }
+
+            try
+            {
+                // 创建更详细的错误窗口
+                var errorWindow = new Window { Title = "WinVault - 启动错误 Startup Error" };
+                
+                // 创建错误内容
+                var grid = new Microsoft.UI.Xaml.Controls.Grid();
+                var stackPanel = new Microsoft.UI.Xaml.Controls.StackPanel
+                {
+                    Margin = new Microsoft.UI.Xaml.Thickness(20),
+                    Spacing = 10
+                };
+
+                // 错误标题
+                var titleText = new Microsoft.UI.Xaml.Controls.TextBlock
+                {
+                    Text = "WinVault 启动失败",
+                    FontSize = 20,
+                    FontWeight = Microsoft.UI.Text.FontWeights.Bold,
+                    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center
+                };
+                stackPanel.Children.Add(titleText);
+
+                // 错误类型
+                var typeText = new Microsoft.UI.Xaml.Controls.TextBlock
+                {
+                    Text = $"错误类型: {ex.GetType().Name}",
+                    FontSize = 14,
+                    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center
+                };
+                stackPanel.Children.Add(typeText);
+
+                // 错误消息
+                var messageText = new Microsoft.UI.Xaml.Controls.TextBlock
+                {
+                    Text = $"错误信息: {ex.Message}",
+                    FontSize = 12,
+                    TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
+                    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center
+                };
+                stackPanel.Children.Add(messageText);
+
+                // 提示信息
+                var hintText = new Microsoft.UI.Xaml.Controls.TextBlock
+                {
+                    Text = "请检查日志文件获取详细信息，或联系技术支持。",
+                    FontSize = 12,
+                    Opacity = 0.7,
+                    TextWrapping = Microsoft.UI.Xaml.TextWrapping.Wrap,
+                    HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Center
+                };
+                stackPanel.Children.Add(hintText);
+
+                grid.Children.Add(stackPanel);
+                errorWindow.Content = grid;
+                errorWindow.Activate();
+                
+                // 给用户一些时间看到错误窗口
+                System.Threading.Thread.Sleep(5000);
+            }
+            catch (Exception errorWindowEx)
+            {
+                System.Diagnostics.Debug.WriteLine($"错误窗口创建失败: {errorWindowEx.Message}");
                 Environment.Exit(-1);
             }
         }
@@ -225,13 +332,35 @@ namespace WinVault
             try
             {
                 System.Diagnostics.Debug.WriteLine($"未处理异常 Unhandled exception: {e.Exception}");
+                System.Diagnostics.Debug.WriteLine($"异常堆栈: {e.Exception.StackTrace}");
+                
+                // 记录到文件
+                var logMessage = $"未处理异常 / Unhandled exception ({DateTime.Now:yyyy-MM-dd HH:mm:ss}):\n" +
+                               $"类型 / Type: {e.Exception.GetType().Name}\n" +
+                               $"消息 / Message: {e.Exception.Message}\n\n" +
+                               $"{e.Exception.StackTrace}";
+                System.IO.File.WriteAllText("unhandled_exception.log", logMessage);
+                
                 var logger = LoggingService.Instance;
                 logger?.Fatal(e.Exception, "应用程序发生未处理异常 Application unhandled exception occurred");
                 e.Handled = true;
             }
-            catch
+            catch (Exception handlerEx)
             {
-                System.Diagnostics.Debug.WriteLine("异常处理器发生错误 Exception handler error occurred");
+                System.Diagnostics.Debug.WriteLine($"异常处理器发生错误 Exception handler error occurred: {handlerEx.Message}");
+                // 记录处理器异常
+                try
+                {
+                    var handlerLogMessage = $"异常处理器错误 / Exception handler error ({DateTime.Now:yyyy-MM-dd HH:mm:ss}):\n" +
+                                          $"类型 / Type: {handlerEx.GetType().Name}\n" +
+                                          $"消息 / Message: {handlerEx.Message}\n\n" +
+                                          $"{handlerEx.StackTrace}";
+                    System.IO.File.WriteAllText("exception_handler_error.log", handlerLogMessage);
+                }
+                catch
+                {
+                    // 忽略最后的日志写入错误
+                }
             }
         }
 

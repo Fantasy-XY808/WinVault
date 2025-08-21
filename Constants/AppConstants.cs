@@ -182,6 +182,13 @@ namespace WinVault.Constants
             public const string LastUpdateCheck = "LastUpdateCheck";
             public const string WindowWidth = "WindowWidth";
             public const string WindowHeight = "WindowHeight";
+            // 新增：窗口位置与启动位置策略
+            public const string WindowX = "WindowX";
+            public const string WindowY = "WindowY";
+            // Center 或 Last
+            public const string WindowStartPosition = "WindowStartPosition";
+            // 是否展开侧边栏（可与 NavViewMode 配合使用）
+            public const string NavPaneExpanded = "NavPaneExpanded";
         }
         
         /// <summary>

@@ -25,20 +25,55 @@ Purpose: Main application window with modern navigation interface,
     <!-- 工作的NavigationView版本 -->
     <Grid>
         <NavigationView x:Name="NavView"
-                        SelectionChanged="NavigationView_SelectionChanged">
+                        IsSettingsVisible="False"
+                        SelectionChanged="NavigationView_SelectionChanged"
+                        BackRequested="NavigationView_BackRequested"
+                        IsBackButtonVisible="Visible">
 
             <NavigationView.MenuItems>
-                <NavigationViewItem Content="主页" Tag="home" Icon="Home"/>
-                <NavigationViewItem Content="硬件信息" Tag="hardware" Icon="Save"/>
-                <NavigationViewItem Content="服务管理" Tag="services" Icon="Admin"/>
-                <NavigationViewItem Content="命令查询" Tag="commandquery" Icon="Help"/>
-                <NavigationViewItem Content="快速设置" Tag="quicksettings" Icon="Setting"/>
-                <NavigationViewItem Content="工具箱" Tag="exetools" Icon="Repair"/>
+                <NavigationViewItem Content="主页" Tag="home">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE80F;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="硬件信息" Tag="hardware">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE770;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="服务管理" Tag="services">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE7BA;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="命令查询" Tag="commandquery">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE721;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="快捷设置" Tag="quicksettings">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="工具箱" Tag="exetools">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE9D9;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem Content="设置" Tag="settings" Icon="Setting"/>
-                <NavigationViewItem Content="关于" Tag="about" Icon="Help"/>
+                <NavigationViewItem Content="关于" Tag="about">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="应用设置" Tag="settings">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE713;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.FooterMenuItems>
 
             <Frame x:Name="ContentFrame" NavigationFailed="ContentFrame_NavigationFailed"/>

@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Media.Animation;
 using WinVault.Services;
 using WinVault.Constants;
 using System;
@@ -137,9 +138,33 @@ namespace WinVault.Pages
         /// <summary>
         /// 页面加载完成事件
         /// </summary>
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            // 页面加载时可以执行一些初始化操作
+            // 动态显示系统版本
+            try
+            {
+                var status = new SystemStatusService();
+                var (osName, osVersion, computerName, installDate) = await status.GetSystemInfoAsync();
+                if (!string.IsNullOrWhiteSpace(osName))
+                {
+                    SystemVersionText.Text = osName;
+                }
+            }
+            catch { }
+
+            // 显示当前时间并每分钟更新
+            try
+            {
+                void updateNow()
+                {
+                    CurrentTimeText.Text = DateTime.Now.ToString("yyyy年M月d日 HH:mm");
+                }
+                updateNow();
+                var timer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(1) };
+                timer.Tick += (_, __) => updateNow();
+                timer.Start();
+            }
+            catch { }
         }
 
         /// <summary>
@@ -178,14 +203,58 @@ namespace WinVault.Pages
             }
         }
 
-
-
         /// <summary>
         /// 快速系统优化按钮点击
         /// </summary>
         private void QuickOptimize_Click(object sender, RoutedEventArgs e)
         {
             NavigateToPage("quicksettings");
+        }
+
+        /// <summary>
+        /// 快速磁盘清理按钮点击
+        /// </summary>
+        private void QuickDiskCleanup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // 启动磁盘清理工具
+                var process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = "cleanmgr.exe";
+                process.StartInfo.UseShellExecute = true;
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"启动磁盘清理失败: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 快速服务管理按钮点击
+        /// </summary>
+        private void QuickServices_Click(object sender, RoutedEventArgs e)
+        {
+            NavigateToPage("services");
+        }
+
+        /// <summary>
+        /// 快速任务管理器按钮点击
+        /// </summary>
+        private void QuickTaskManager_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // 启动任务管理器
+                var process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = "taskmgr.exe";
+                process.StartInfo.UseShellExecute = true;
+                process.Start();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"启动任务管理器失败: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -226,6 +295,9 @@ namespace WinVault.Pages
                 var frame = this.Frame;
                 if (frame != null)
                 {
+                    // 更新侧边栏选中状态
+                    UpdateNavigationViewSelection(pageTag);
+                    
                     switch (pageTag)
                     {
                         case "quicksettings":
@@ -237,12 +309,47 @@ namespace WinVault.Pages
                         case "exetools":
                             frame.Navigate(typeof(ExeToolsPage));
                             break;
+                        case "services":
+                            frame.Navigate(typeof(ServicesPage));
+                            break;
+                        case "commandquery":
+                            frame.Navigate(typeof(CommandQueryPage));
+                            break;
                     }
                 }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"导航失败: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 更新侧边栏选中状态
+        /// </summary>
+        private void UpdateNavigationViewSelection(string pageTag)
+        {
+            try
+            {
+                // 通过App获取主窗口
+                if (App.MainWindow is MainWindow mainWindow && mainWindow.NavViewControl != null)
+                {
+                    var navView = mainWindow.NavViewControl;
+                    
+                    // 查找对应的NavigationViewItem并设置为选中
+                    foreach (var item in navView.MenuItems)
+                    {
+                        if (item is NavigationViewItem navItem && navItem.Tag?.ToString() == pageTag)
+                        {
+                            navView.SelectedItem = navItem;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"更新侧边栏选中状态失败: {ex.Message}");
             }
         }
     }

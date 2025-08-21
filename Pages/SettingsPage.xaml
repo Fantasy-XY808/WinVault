@@ -42,13 +42,39 @@
         <StackPanel Spacing="24">
             <!-- 页面标题 -->
             <StackPanel>
-                <TextBlock Text="WinVault 设置" Style="{StaticResource TitleTextBlockStyle}" Margin="0,0,0,8"/>
+                <TextBlock Text="WinVault 设置" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,8"/>
                 <TextBlock Text="个性化您的WinVault体验"
-                          Style="{StaticResource SubtitleTextBlockStyle}"
+                          Style="{ThemeResource SubtitleTextBlockStyle}"
                           Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
             </StackPanel>
 
 
+
+            <!-- 关于 -->
+            <StackPanel>
+                <TextBlock Text="关于" Style="{StaticResource CategoryTitleStyle}"/>
+
+                <Grid Style="{StaticResource SettingCardStyle}">
+                    <StackPanel Spacing="12">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <FontIcon Glyph="&#xE946;" FontSize="32" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
+                            <StackPanel>
+                                <TextBlock Text="WinVault" FontWeight="SemiBold" FontSize="18"/>
+                                <TextBlock Text="版本 1.0.0" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock Text="现代化Windows系统管理平台，提供专业级系统优化、监控和维护解决方案。"
+                                   TextWrapping="Wrap" Style="{StaticResource SettingDescriptionStyle}"/>
+
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button Content="检查更新" Click="CheckUpdate_Click"/>
+                            <HyperlinkButton Content="GitHub" NavigateUri="https://github.com/Fantasy-XY808/WinVault"/>
+                            <HyperlinkButton Content="反馈问题" NavigateUri="https://github.com/Fantasy-XY808/WinVault/issues"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
 
             <!-- 界面设置 -->
             <StackPanel>
@@ -72,6 +98,55 @@
                         <RadioButton x:Name="ThemeSystem" Content="跟随系统" Checked="Theme_Checked" Tag="Default" IsChecked="True"/>
                     </StackPanel>
                 </Grid>
+
+                <!-- 语言选择 -->
+                <Grid Style="{StaticResource SettingCardStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="界面语言" Style="{StaticResource SettingTitleStyle}"/>
+                        <TextBlock Text="选择应用显示语言（默认跟随系统）" Style="{StaticResource SettingDescriptionStyle}"/>
+                    </StackPanel>
+
+                    <ComboBox Grid.Column="1" x:Name="LanguageCombo" Width="200" SelectionChanged="LanguageCombo_SelectionChanged">
+                        <ComboBoxItem Content="跟随系统" Tag="system"/>
+                        <ComboBoxItem Content="简体中文" Tag="zh-CN"/>
+                        <ComboBoxItem Content="English" Tag="en-US"/>
+                    </ComboBox>
+                </Grid>
+
+                <!-- 侧边栏展开 -->
+                <Grid Style="{StaticResource SettingCardStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="侧边栏默认展开" Style="{StaticResource SettingTitleStyle}"/>
+                        <TextBlock Text="控制应用启动时导航侧边栏是否展开" Style="{StaticResource SettingDescriptionStyle}"/>
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="1" x:Name="NavPaneToggle" Toggled="NavPaneToggle_Toggled"/>
+                </Grid>
+
+                <!-- 启动位置策略 -->
+                <Grid Style="{StaticResource SettingCardStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="窗口启动位置" Style="{StaticResource SettingTitleStyle}"/>
+                        <TextBlock Text="选择每次启动时窗口出现的位置" Style="{StaticResource SettingDescriptionStyle}"/>
+                    </StackPanel>
+                    <ComboBox Grid.Column="1" x:Name="StartPosCombo" Width="200" SelectionChanged="StartPosCombo_SelectionChanged">
+                        <ComboBoxItem Content="居中" Tag="Center"/>
+                        <ComboBoxItem Content="上次位置" Tag="Last"/>
+                    </ComboBox>
+                </Grid>
+
             </StackPanel>
 
             <!-- 系统设置 -->
@@ -121,7 +196,7 @@
                     </StackPanel>
 
                     <ToggleSwitch Grid.Column="1" x:Name="MinStartToggle" IsOn="False" VerticalAlignment="Center"
-                                  Toggled="MinStartToggle_Toggled" IsEnabled="{x:Bind StartupToggle.IsOn, Mode=OneWay}"/>
+                                  Toggled="MinStartToggle_Toggled" IsEnabled="{Binding ElementName=StartupToggle, Path=IsOn, Mode=OneWay}"/>
                 </Grid>
 
                 <!-- 系统监控 -->
@@ -171,7 +246,7 @@
                         <TextBlock Text="启用详细日志记录和调试信息" Style="{StaticResource SettingDescriptionStyle}"/>
                     </StackPanel>
 
-                    <ToggleSwitch Grid.Column="1" x:Name="DebugModeToggle" IsOn="False" VerticalAlignment="Center"/>
+                    <ToggleSwitch Grid.Column="1" x:Name="DebugModeToggle" IsOn="False" VerticalAlignment="Center" Toggled="DebugModeToggle_Toggled"/>
                 </Grid>
 
                 <!-- 数据收集 -->
@@ -186,7 +261,7 @@
                         <TextBlock Text="帮助改进WinVault，发送匿名使用数据" Style="{StaticResource SettingDescriptionStyle}"/>
                     </StackPanel>
 
-                    <ToggleSwitch Grid.Column="1" x:Name="TelemetryToggle" IsOn="True" VerticalAlignment="Center"/>
+                    <ToggleSwitch Grid.Column="1" x:Name="TelemetryToggle" IsOn="True" VerticalAlignment="Center" Toggled="TelemetryToggle_Toggled"/>
                 </Grid>
 
                 <!-- 重置设置 -->
@@ -202,32 +277,6 @@
                     </StackPanel>
 
                     <Button Grid.Column="1" Content="重置" VerticalAlignment="Center" Click="ResetSettings_Click"/>
-                </Grid>
-            </StackPanel>
-
-            <!-- 关于 -->
-            <StackPanel>
-                <TextBlock Text="关于" Style="{StaticResource CategoryTitleStyle}"/>
-
-                <Grid Style="{StaticResource SettingCardStyle}">
-                    <StackPanel Spacing="12">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <FontIcon Glyph="&#xE946;" FontSize="32" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
-                            <StackPanel>
-                                <TextBlock Text="WinVault" FontWeight="SemiBold" FontSize="18"/>
-                                <TextBlock Text="版本 1.0.0" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
-                            </StackPanel>
-                        </StackPanel>
-
-                        <TextBlock Text="现代化Windows系统管理平台，提供专业级系统优化、监控和维护解决方案。"
-                                   TextWrapping="Wrap" Style="{StaticResource SettingDescriptionStyle}"/>
-
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <Button Content="检查更新" Click="CheckUpdate_Click"/>
-                            <HyperlinkButton Content="GitHub" NavigateUri="https://github.com/"/>
-                            <HyperlinkButton Content="反馈问题" NavigateUri="https://github.com/"/>
-                        </StackPanel>
-                    </StackPanel>
                 </Grid>
             </StackPanel>
         </StackPanel>

@@ -19,7 +19,7 @@
         <!-- 页面标题栏 -->
         <controls:PageHeaderControl Grid.Row="0"
             Title="服务管理"
-            Description="管理和监控Windows系统服务状态"
+            Description="查看、启动、停止和管理Windows系统服务。系统服务是Windows后台运行的程序，提供各种系统功能。"
             Icon="&#xE8B7;"
             Status="服务正常"
             StatusType="Success"
@@ -31,8 +31,35 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <!-- 功能说明卡片 -->
+            <Border Grid.Row="0" 
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="16"
+                    Margin="0,0,0,16">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="服务管理功能说明" 
+                               FontWeight="SemiBold" 
+                               FontSize="16"/>
+                    <TextBlock Text="• 查看服务状态：了解哪些服务正在运行，哪些已停止" 
+                               TextWrapping="Wrap" 
+                               Opacity="0.8"/>
+                    <TextBlock Text="• 启动/停止服务：手动控制服务的运行状态" 
+                               TextWrapping="Wrap" 
+                               Opacity="0.8"/>
+                    <TextBlock Text="• 设置启动类型：自动（开机启动）、手动（需要时启动）、禁用（不启动）" 
+                               TextWrapping="Wrap" 
+                               Opacity="0.8"/>
+                    <TextBlock Text="• 查看服务详情：了解服务的功能、依赖关系和配置信息" 
+                               TextWrapping="Wrap" 
+                               Opacity="0.8"/>
+                </StackPanel>
+            </Border>
+
             <!-- 搜索和筛选控件 -->
-            <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid Grid.Row="1" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -62,7 +89,7 @@
             <!-- 服务列表 -->
             <ListView 
                 x:Name="ServicesListView"
-                Grid.Row="1"
+                Grid.Row="2"
                 SelectionMode="Single">
                 <ListView.ItemTemplate>
                     <DataTemplate>

@@ -103,7 +103,7 @@ Layout Structure / 布局结构:
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <TextBlock Text="WinVault" FontSize="32" FontWeight="Bold" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
                                 <TextBlock Text="/" FontSize="32" FontWeight="Bold" Opacity="0.5"/>
-                                <TextBlock x:Name="SystemVersionText" Text="Windows 11 Pro" FontSize="32" FontWeight="Bold" Opacity="0.8"/>
+                                <TextBlock x:Name="SystemVersionText" Text="Windows" FontSize="32" FontWeight="Bold" Opacity="0.8"/>
                             </StackPanel>
                             <TextBlock Text="现代化Windows系统管理平台"
                                        FontSize="16"
@@ -121,8 +121,8 @@ Layout Structure / 布局结构:
                                     <TextBlock Text="系统正常" FontSize="12" Foreground="White" FontWeight="SemiBold"/>
                                 </StackPanel>
                             </Border>
-                            <TextBlock x:Name="CurrentTimeText"
-                                       Text="2024年12月19日 14:30"
+                             <TextBlock x:Name="CurrentTimeText"
+                                       Text=""
                                        FontSize="12"
                                        Opacity="0.6"
                                        HorizontalAlignment="Center"/>
@@ -151,10 +151,10 @@ Layout Structure / 布局结构:
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <FontIcon Grid.Column="0" Glyph="{x:Bind Icon}" FontSize="20" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
-                                            <TextBlock Grid.Column="1" Text="{x:Bind Title}" FontWeight="SemiBold" Margin="8,0,0,0"/>
+                                            <TextBlock Grid.Column="1" Text="{x:Bind Title, Mode=OneWay}" FontWeight="SemiBold" Margin="8,0,0,0"/>
                                         </Grid>
-                                        <TextBlock Text="{x:Bind Value}" FontSize="18" FontWeight="Bold"/>
-                                        <TextBlock Text="{x:Bind Status}" FontSize="12" Opacity="0.7"/>
+                                        <TextBlock Text="{x:Bind Value, Mode=OneWay}" FontSize="18" FontWeight="Bold"/>
+                                        <TextBlock Text="{x:Bind Status, Mode=OneWay}" FontSize="12" Opacity="0.7"/>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
@@ -184,36 +184,36 @@ Layout Structure / 布局结构:
                             </StackPanel>
                         </Button>
 
-                        <!-- 系统优化快速入口 -->
+                        <!-- 磁盘清理快速入口 -->
                         <Button Grid.Column="1" Margin="4,0" Padding="16" HorizontalAlignment="Stretch"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                Click="QuickOptimize_Click">
+                                Click="QuickDiskCleanup_Click">
                             <StackPanel Spacing="8">
-                                <FontIcon Glyph="&#xE950;" FontSize="24" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
-                                <TextBlock Text="系统优化" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                <FontIcon Glyph="&#xE74E;" FontSize="24" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
+                                <TextBlock Text="磁盘清理" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
-                        <!-- 硬件信息快速入口 -->
+                        <!-- 服务管理快速入口 -->
                         <Button Grid.Column="2" Margin="4,0" Padding="16" HorizontalAlignment="Stretch"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                Click="QuickHardware_Click">
+                                Click="QuickServices_Click">
                             <StackPanel Spacing="8">
-                                <FontIcon Glyph="&#xE7F8;" FontSize="24" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
-                                <TextBlock Text="硬件信息" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                <FontIcon Glyph="&#xE8B7;" FontSize="24" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
+                                <TextBlock Text="服务管理" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
 
-                        <!-- 工具箱快速入口 -->
+                        <!-- 任务管理器快速入口 -->
                         <Button Grid.Column="3" Margin="8,0,0,0" Padding="16" HorizontalAlignment="Stretch"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                Click="QuickTools_Click">
+                                Click="QuickTaskManager_Click">
                             <StackPanel Spacing="8">
-                                <FontIcon Glyph="&#xE2AC;" FontSize="24" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
-                                <TextBlock Text="工具箱" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                <FontIcon Glyph="&#xE950;" FontSize="24" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
+                                <TextBlock Text="任务管理器" FontWeight="SemiBold" HorizontalAlignment="Center"/>
                             </StackPanel>
                         </Button>
                     </Grid>
@@ -277,7 +277,7 @@ Layout Structure / 布局结构:
                                 BorderThickness="1"
                                 CornerRadius="8"
                                 Click="FunctionCard_Click"
-                                Tag="commands">
+                                Tag="commandquery">
                             <StackPanel Spacing="12" HorizontalAlignment="Center">
                                 <Border Width="48" Height="48" CornerRadius="24"
                                         Background="{ThemeResource AccentFillColorDefaultBrush}">
@@ -290,22 +290,22 @@ Layout Structure / 布局结构:
                             </StackPanel>
                         </Button>
 
-                        <!-- 快速设置 -->
+                        <!-- 工具箱 -->
                         <Button Grid.Column="3" Margin="8,0,0,0" Padding="20" Height="140" HorizontalAlignment="Stretch"
                                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1"
                                 CornerRadius="8"
                                 Click="FunctionCard_Click"
-                                Tag="quicksettings">
+                                Tag="exetools">
                             <StackPanel Spacing="12" HorizontalAlignment="Center">
                                 <Border Width="48" Height="48" CornerRadius="24"
                                         Background="{ThemeResource AccentFillColorDefaultBrush}">
-                                    <FontIcon Glyph="&#xE713;" FontSize="24" Foreground="White"/>
+                                    <FontIcon Glyph="&#xE2AC;" FontSize="24" Foreground="White"/>
                                 </Border>
                                 <StackPanel Spacing="4" HorizontalAlignment="Center">
-                                    <TextBlock Text="快速设置" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-                                    <TextBlock Text="系统快速配置" FontSize="12" Opacity="0.7" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                    <TextBlock Text="工具箱" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="实用工具集合" FontSize="12" Opacity="0.7" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                                 </StackPanel>
                             </StackPanel>
                         </Button>
@@ -313,39 +313,7 @@ Layout Structure / 布局结构:
                 </StackPanel>
 
 
-                <!-- 快速操作 -->
-                <StackPanel Spacing="16" Margin="0,16,0,0">
-                    <TextBlock Text="快速操作" Style="{StaticResource SubtitleTextBlockStyle}" FontWeight="SemiBold"/>
-                    <ItemsRepeater ItemsSource="{x:Bind ViewModel.QuickActionCards}">
-                        <ItemsRepeater.Layout>
-                            <UniformGridLayout MinItemWidth="200" MinItemHeight="100" MinColumnSpacing="16" MinRowSpacing="16" MaximumRowsOrColumns="4"/>
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="viewmodels:QuickActionCard">
-                                <Button Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                        BorderThickness="1"
-                                        CornerRadius="8"
-                                        Padding="16"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        Command="{x:Bind ActionCommand}">
-                                    <StackPanel Spacing="8" HorizontalAlignment="Left">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <FontIcon Grid.Column="0" Glyph="{x:Bind Icon}" FontSize="18" Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"/>
-                                            <TextBlock Grid.Column="1" Text="{x:Bind Title}" FontWeight="SemiBold" Margin="8,0,0,0"/>
-                                        </Grid>
-                                        <TextBlock Text="{x:Bind Description}" FontSize="12" Opacity="0.7" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </StackPanel>
+
 
                 <TextBlock Text="{x:Bind ViewModel.Version, Mode=OneTime}" Style="{StaticResource CaptionTextBlockStyle}" HorizontalAlignment="Right" Margin="0,24,0,0" Opacity="0.6" />
             </StackPanel>

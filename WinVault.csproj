@@ -7,53 +7,51 @@
     <RootNamespace>WinVault</RootNamespace>
     <UseWinUI>true</UseWinUI>
     <DefaultLanguage>en-US</DefaultLanguage>
-    <SupportedCultures>en-US</SupportedCultures>
+    <SupportedCultures>en-US;zh-CN</SupportedCultures>
     <GenerateAppxPackageOnBuild>false</GenerateAppxPackageOnBuild>
     <GenerateAppxBundleOnBuild>false</GenerateAppxBundleOnBuild>
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <PlatformTarget>x64</PlatformTarget>
+    <AppxGeneratePriEnabled>true</AppxGeneratePriEnabled>
+    <!-- 关闭 XAML 自动“未处理异常即断点”的行为，避免 0x80000003 -->
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION</DefineConstants>
+  </PropertyGroup>
 
-    <!-- 非打包配置 -->
-    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+  <!-- Debug：启用 MSIX 打包，方便 F5 调试部署 -->
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <WindowsPackageType>MSIX</WindowsPackageType>
+    <EnableMsixTooling>true</EnableMsixTooling>
+  </PropertyGroup>
+
+  <!-- Release：关闭打包，产出干净的非打包目录用于分发；自包含 WinAppSDK 和 .NET -->
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <WindowsPackageType>None</WindowsPackageType>
     <EnableMsixTooling>false</EnableMsixTooling>
-    <!-- 重新启用 PRI，但彻底禁用 Packaging 相关合并，避免 PRI224 -->
-    <AppxGeneratePriEnabled>true</AppxGeneratePriEnabled>
-    <PriDisablePackagingSupport>true</PriDisablePackagingSupport>
-    <PriSkipDefaultPriConfigGeneration>true</PriSkipDefaultPriConfigGeneration>
-    
-    <!-- 添加调试和错误处理配置 -->
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <ErrorReport>prompt</ErrorReport>
-    
-    <!-- 添加稳定性配置 -->
+    <Optimize>true</Optimize>
+    <Deterministic>true</Deterministic>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- 关键：把 Windows App Runtime 打入发布目录，避免目标机提示安装 WinApp Runtime -->
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <!-- 让发布默认自包含 .NET 运行时（也可在发布时覆盖） -->
+    <SelfContained>true</SelfContained>
+    <!-- 启用详细错误信息 -->
     <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
     <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
-    <EventSourceSupport>false</EventSourceSupport>
-    <HttpActivityPropagationSupport>false</HttpActivityPropagationSupport>
-    <InvariantGlobalization>false</InvariantGlobalization>
-    <MetadataUpdaterSupport>false</MetadataUpdaterSupport>
-    <UseSystemResourceKeys>false</UseSystemResourceKeys>
-    <!-- 移除 snippet 路径属性 -->
-    <!-- 使用自定义最小 Pri 配置 -->
-    <AppxPriConfigXmlPath>PriConfig.xml</AppxPriConfigXmlPath>
-    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
-    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- 使用稳定版 Windows App SDK 1.4 以避免 1.5 预览版在非 Insider 系统上出现 0xc000027b / 模块丢失 问题 -->
-    <PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.240211001" />
-    <!-- 使用与 Windows 22H2 对应的稳定版 BuildTools 避免编译时 API 缺失 -->
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" PrivateAssets="all" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Serilog" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
     <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.0" />
     <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="8.0.0" />
   </ItemGroup>
 

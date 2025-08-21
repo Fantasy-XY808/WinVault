@@ -31,7 +31,7 @@ namespace WinVault.Services
         /// Serilog logger instance responsible for actual log writing operations.
         /// Configured with file output, console output, and structured formatting.
         /// </summary>
-        private readonly Logger _logger;
+        private Logger _logger;
 
         /// <summary>
         /// 当前日志文件的完整路径。
@@ -42,12 +42,10 @@ namespace WinVault.Services
         private readonly string _logFilePath;
 
         /// <summary>
-        /// 当前配置的最小日志级别。
-        /// 只有等于或高于此级别的日志才会被记录。
-        /// Currently configured minimum log level.
-        /// Only logs equal to or higher than this level will be recorded.
+        /// Serilog LoggingLevelSwitch 实例，用于运行时控制日志级别。
+        /// Serilog LoggingLevelSwitch instance for runtime control of log level.
         /// </summary>
-        private readonly LogEventLevel _minimumLevel;
+        private readonly LoggingLevelSwitch _levelSwitch;
 
         #endregion
 
@@ -144,21 +142,30 @@ namespace WinVault.Services
             string logLevel = settingsService.GetSetting<string>(AppConstants.SettingsKeys.LogLevel, "Information") ?? "Information";
             
             // 解析日志级别
-            if (!Enum.TryParse<LogEventLevel>(logLevel, true, out _minimumLevel))
-            {
-                _minimumLevel = LogEventLevel.Information;
-            }
+            if (!Enum.TryParse<LogEventLevel>(logLevel, true, out var parsed)) parsed = LogEventLevel.Information;
+            
+            // 创建 LoggingLevelSwitch 实例
+            _levelSwitch = new LoggingLevelSwitch(parsed);
             
             // 创建日志记录器
-            _logger = new LoggerConfiguration()
-                .MinimumLevel.Is(_minimumLevel)
+            _logger = BuildLogger();
+            
+            // 记录启动日志
+            Information("LoggingService initialized. Log file: {0}", _logFilePath);
+        }
+
+        /// <summary>
+        /// 构建 Serilog 记录器，配置文件输出和结构化格式。
+        /// </summary>
+        /// <returns>Serilog 记录器实例 / Serilog logger instance</returns>
+        private Logger BuildLogger()
+        {
+            return new LoggerConfiguration()
+                .MinimumLevel.ControlledBy(_levelSwitch)
                 .WriteTo.File(_logFilePath, 
                     rollingInterval: RollingInterval.Day,
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
                 .CreateLogger();
-            
-            // 记录启动日志
-            Information("LoggingService initialized. Log file: {0}", _logFilePath);
         }
 
         /// <summary>
@@ -238,17 +245,12 @@ namespace WinVault.Services
         /// </summary>
         public LogEventLevel MinimumLevel
         {
-            get => _minimumLevel;
+            get => _levelSwitch.MinimumLevel;
             set
             {
-                // 由于Serilog不支持动态更改日志级别，这里只记录设置的更改
-                _logger.Information("Log level changed from {0} to {1}", _minimumLevel, value);
-                
-                // 保存到设置中
-                var settingsService = SettingsService.Instance;
-                settingsService.SaveSetting(AppConstants.SettingsKeys.LogLevel, value.ToString());
-                
-                // 注意：要使新的日志级别生效，需要重启应用程序
+                _levelSwitch.MinimumLevel = value;
+                SettingsService.Instance.SaveSetting(AppConstants.SettingsKeys.LogLevel, value.ToString());
+                _logger.Information("Log level switched to {0}", value);
             }
         }
 
@@ -258,12 +260,23 @@ namespace WinVault.Services
         public string LogFilePath => _logFilePath;
 
         /// <summary>
+        /// 设置最小日志级别
+        /// </summary>
+        /// <param name="level">新的最小日志级别 / New minimum log level</param>
+        public void SetMinimumLevel(LogEventLevel level)
+        {
+            _levelSwitch.MinimumLevel = level;
+            SettingsService.Instance.SaveSetting(AppConstants.SettingsKeys.LogLevel, level.ToString());
+            _logger.Information("Log level switched to {0}", level);
+        }
+
+        /// <summary>
         /// 关闭日志系统
         /// </summary>
         public void ShutDown()
         {
             Information("LoggingService shutting down.");
-            _logger.Dispose();
+            try { _logger?.Dispose(); } catch { }
         }
 
         #endregion

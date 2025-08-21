@@ -137,4 +137,26 @@ namespace WinVault.Converters
             return 0;
         }
     }
+
+    /// <summary>
+    /// 分区颜色转换器
+    /// </summary>
+    public class PartitionColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is bool isPartition)
+            {
+                return isPartition ? 
+                    Application.Current.Resources["PartitionColorBrush"] : 
+                    Application.Current.Resources["DiskColorBrush"];
+            }
+            return Application.Current.Resources["DiskColorBrush"];
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

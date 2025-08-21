@@ -143,42 +143,70 @@ namespace WinVault.Services
             {
                 await Task.Run(() => { }); // 异步占位
 
-                bool isConnected = NetworkInterface.GetIsNetworkAvailable();
+                // 改进的网络连接检测逻辑
+                bool isConnected = false;
                 string connectionType = "未连接";
                 long bytesReceived = 0;
                 long bytesSent = 0;
 
-                if (isConnected)
+                try
                 {
-                    var interfaces = NetworkInterface.GetAllNetworkInterfaces()
-                        .Where(ni => ni.OperationalStatus == OperationalStatus.Up && 
-                                   ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                    // 检查是否有活动的网络接口
+                    var activeInterfaces = NetworkInterface.GetAllNetworkInterfaces()
+                        .Where(ni => ni.OperationalStatus == OperationalStatus.Up &&
+                                     ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
                         .ToArray();
 
-                    if (interfaces.Length > 0)
+                    if (activeInterfaces.Length > 0)
                     {
-                        var activeInterface = interfaces.FirstOrDefault(ni => 
+                        isConnected = true;
+                        
+                        // 优先选择以太网或WiFi接口
+                        var primaryInterface = activeInterfaces.FirstOrDefault(ni =>
                             ni.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
-                            ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211) ?? interfaces[0];
+                            ni.NetworkInterfaceType == NetworkInterfaceType.Wireless80211) ?? activeInterfaces[0];
 
-                        connectionType = activeInterface.NetworkInterfaceType switch
+                        connectionType = primaryInterface.NetworkInterfaceType switch
                         {
                             NetworkInterfaceType.Ethernet => "以太网",
                             NetworkInterfaceType.Wireless80211 => "Wi-Fi",
-                            _ => "已连接"
+                            NetworkInterfaceType.Ppp => "拨号连接",
+                            _ => "其他连接"
                         };
 
-                        var stats = activeInterface.GetIPv4Statistics();
-                        bytesReceived = stats.BytesReceived;
-                        bytesSent = stats.BytesSent;
+                        // 获取网络统计信息
+                        try
+                        {
+                            var stats = primaryInterface.GetIPv4Statistics();
+                            bytesReceived = stats.BytesReceived;
+                            bytesSent = stats.BytesSent;
+                        }
+                        catch
+                        {
+                            // 如果获取统计信息失败，尝试其他方法
+                            try
+                            {
+                                var stats = primaryInterface.GetIPStatistics();
+                                bytesReceived = stats.BytesReceived;
+                                bytesSent = stats.BytesSent;
+                            }
+                            catch
+                            {
+                                // 忽略统计信息获取失败
+                            }
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"网络状态检测失败: {ex.Message}");
                 }
 
                 return (isConnected, connectionType, bytesReceived, bytesSent);
             }
             catch
             {
-                return (false, "未知", 0, 0);
+                return (false, "检测失败", 0, 0);
             }
         }
 
@@ -186,39 +214,61 @@ namespace WinVault.Services
         /// 获取系统信息
         /// </summary>
         /// <returns>系统信息</returns>
-        public async Task<(string osName, string osVersion, string computerName)> GetSystemInfoAsync()
+        public async Task<(string osName, string osVersion, string computerName, string installDate)> GetSystemInfoAsync()
         {
             try
             {
                 await Task.Run(() => { }); // 异步占位
 
-                string osName = Environment.OSVersion.Platform.ToString();
+                string osName = "Windows";
                 string osVersion = Environment.OSVersion.VersionString;
                 string computerName = Environment.MachineName;
+                string installDate = "未知";
 
                 // 使用WMI获取更详细的系统信息
                 try
                 {
-                    using var searcher = new ManagementObjectSearcher("SELECT Caption, Version FROM Win32_OperatingSystem");
+                    using var searcher = new ManagementObjectSearcher("SELECT Caption, Version, InstallDate FROM Win32_OperatingSystem");
                     using var results = searcher.Get();
                     
                     foreach (ManagementObject result in results)
                     {
                         osName = result["Caption"]?.ToString() ?? osName;
                         osVersion = result["Version"]?.ToString() ?? osVersion;
+                        
+                        // 处理安装日期
+                        if (result["InstallDate"] != null)
+                        {
+                            try
+                            {
+                                var installDateStr = result["InstallDate"].ToString();
+                                if (!string.IsNullOrEmpty(installDateStr) && installDateStr.Length >= 14)
+                                {
+                                    // WMI日期格式: yyyyMMddHHmmss.xxxxx
+                                    var year = installDateStr.Substring(0, 4);
+                                    var month = installDateStr.Substring(4, 2);
+                                    var day = installDateStr.Substring(6, 2);
+                                    installDate = $"{year}-{month}-{day}";
+                                }
+                            }
+                            catch
+                            {
+                                installDate = "未知";
+                            }
+                        }
                         break;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // 如果WMI失败，使用默认值
+                    System.Diagnostics.Debug.WriteLine($"WMI系统信息获取失败: {ex.Message}");
                 }
 
-                return (osName, osVersion, computerName);
+                return (osName, osVersion, computerName, installDate);
             }
             catch
             {
-                return ("Windows", "未知版本", Environment.MachineName);
+                return ("Windows", "未知版本", Environment.MachineName, "未知");
             }
         }
 

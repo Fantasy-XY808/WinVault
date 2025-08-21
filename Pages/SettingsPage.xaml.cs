@@ -16,22 +16,46 @@ using Windows.Foundation.Collections;
 using Microsoft.UI;
 using WinVault.Services;
 using WinVault.Constants;
+using Serilog.Events;
 
 namespace WinVault.Pages
 {
     public sealed partial class SettingsPage : Page
     {
-        private readonly SettingsService _settingsService;
+        private readonly SettingsService? _settingsService;
 
         public SettingsPage()
         {
-            this.InitializeComponent();
-            this.NavigationCacheMode = Microsoft.UI.Xaml.Navigation.NavigationCacheMode.Enabled; // 提升页面切换流畅度
+            try
+            {
+                this.InitializeComponent();
+                this.NavigationCacheMode = Microsoft.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+                _settingsService = SettingsService.Instance;
+                Loaded += SettingsPage_Loaded;
+            }
+            catch (Exception ex)
+            {
+                try { LoggingService.Instance.Error(ex, "SettingsPage ctor failed"); } catch { }
 
-            // 获取设置服务
-            _settingsService = SettingsService.Instance;
-
-            Loaded += SettingsPage_Loaded;
+                // 构造最小可用的降级UI，避免应用直接崩溃
+                var panel = new StackPanel { Spacing = 12, Padding = new Thickness(24) };
+                panel.Children.Add(new TextBlock
+                {
+                    Text = "设置页加载失败",
+                    FontSize = 20,
+                    FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
+                });
+                panel.Children.Add(new TextBlock
+                {
+                    Text = ex.Message,
+                    TextWrapping = TextWrapping.Wrap,
+                    Opacity = 0.8
+                });
+                var back = new Button { Content = "返回" };
+                back.Click += (s, e) => { if (this.Frame?.CanGoBack == true) this.Frame.GoBack(); };
+                panel.Children.Add(back);
+                this.Content = panel;
+            }
         }
 
         private void SettingsPage_Loaded(object sender, RoutedEventArgs e)
@@ -41,213 +65,296 @@ namespace WinVault.Pages
 
         private void LoadSettings()
         {
-            // 加载主题设置
-            var theme = _settingsService.GetSetting("AppTheme", "Default");
-            if (theme is string themeStr)
+            try
             {
+                // 主题
+                var theme = _settingsService?.GetSetting("AppTheme", "Default");
+                var themeStr = theme as string ?? "Default";
                 switch (themeStr)
                 {
-                    case "Light":
-                        ThemeLight.IsChecked = true;
+                    case "Light": 
+                        if (ThemeLight != null) ThemeLight.IsChecked = true; 
                         break;
-                    case "Dark":
-                        ThemeDark.IsChecked = true;
+                    case "Dark": 
+                        if (ThemeDark != null) ThemeDark.IsChecked = true; 
                         break;
-                    case "Default":
-                        ThemeSystem.IsChecked = true;
-                        break;
-                    default:
-                        ThemeSystem.IsChecked = true;
+                    default: 
+                        if (ThemeSystem != null) ThemeSystem.IsChecked = true; 
                         break;
                 }
-            }
 
-            // 加载管理员权限设置
-            var useAdmin = _settingsService.GetSetting("UseAdminPrivileges", false);
-            if (useAdmin is bool useAdminValue)
-            {
-                AdminToggle.IsOn = useAdminValue;
-            }
+                var useAdminObj = _settingsService.GetSetting("UseAdminPrivileges", false);
+                if (AdminToggle != null)
+                    AdminToggle.IsOn = useAdminObj is bool useAdminValue && useAdminValue;
 
-            // 加载开机自启动设置
-            var startWithWindows = _settingsService.GetSetting("StartWithWindows", false);
-            if (startWithWindows is bool startWithWindowsValue)
-            {
-                StartupToggle.IsOn = startWithWindowsValue;
-            }
+                var startWithWindows = false;
+                try { startWithWindows = StartupService.Instance.IsAutoStartEnabled(); } catch { }
+                if (StartupToggle != null)
+                    StartupToggle.IsOn = startWithWindows;
 
-            // 加载最小化启动设置
-            var startMinimized = _settingsService.GetSetting("StartMinimized", false);
-            if (startMinimized is bool startMinimizedValue)
+                var startMinimizedObj = _settingsService.GetSetting("StartMinimized", false);
+                if (MinStartToggle != null)
+                    MinStartToggle.IsOn = startMinimizedObj is bool startMinimizedValue && startMinimizedValue;
+
+                // 高级开关
+                var telemetry = _settingsService.GetSetting(AppConstants.SettingsKeys.EnableAnalytics, true);
+                if (TelemetryToggle != null)
+                    TelemetryToggle.IsOn = telemetry is bool tv && tv;
+                var logLevel = _settingsService.GetSetting<string>(AppConstants.SettingsKeys.LogLevel, "Information") ?? "Information";
+                if (DebugModeToggle != null)
+                    DebugModeToggle.IsOn = string.Equals(logLevel, "Debug", StringComparison.OrdinalIgnoreCase);
+
+                // 语言
+                var lang = _settingsService.GetSetting<string>(AppConstants.SettingsKeys.Language, "system") ?? "system";
+                if (LanguageCombo != null)
+                {
+                    foreach (var item in LanguageCombo.Items.OfType<ComboBoxItem>())
+                    {
+                        if ((item.Tag?.ToString() ?? "") == lang)
+                        {
+                            LanguageCombo.SelectedItem = item;
+                            break;
+                        }
+                    }
+                }
+
+                // 侧边栏展开
+                var navExpandObj = _settingsService.GetSetting(AppConstants.SettingsKeys.NavPaneExpanded, false);
+                if (NavPaneToggle != null)
+                    NavPaneToggle.IsOn = navExpandObj is bool nv && nv;
+
+                // 启动位置策略
+                var startPos = _settingsService.GetSetting<string>(AppConstants.SettingsKeys.WindowStartPosition, "Center") ?? "Center";
+                if (StartPosCombo != null)
+                {
+                    foreach (var item in StartPosCombo.Items.OfType<ComboBoxItem>())
+                    {
+                        if ((item.Tag?.ToString() ?? "Center") == startPos)
+                        {
+                            StartPosCombo.SelectedItem = item;
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                MinStartToggle.IsOn = startMinimizedValue;
+                // 捕获加载异常，避免页面崩溃
+                try { LoggingService.Instance.Error(ex, "SettingsPage LoadSettings failed"); } catch { }
+                System.Diagnostics.Debug.WriteLine($"设置加载失败: {ex.Message}");
             }
         }
 
         private void Theme_Checked(object sender, RoutedEventArgs e)
         {
-            if (sender is RadioButton radioButton && radioButton.IsChecked == true)
+            try
             {
-                string theme = radioButton.Tag?.ToString() ?? "Default";
-                _settingsService.SaveSetting("AppTheme", theme);
-
-                // 应用主题设置
-                ElementTheme elementTheme = ElementTheme.Default;
-                
-                if (theme == "Light")
+                if (sender is RadioButton radioButton && radioButton.IsChecked == true)
                 {
-                    elementTheme = ElementTheme.Light;
+                    string themeStr = radioButton.Tag?.ToString() ?? "Default";
+                    var theme = themeStr == "Light" ? ElementTheme.Light : themeStr == "Dark" ? ElementTheme.Dark : ElementTheme.Default;
+                    ThemeService.Instance.SaveTheme(theme);
+                    ThemeService.Instance.ApplyThemeToWindow(App.CurrentWindow ?? App.MainWindow, theme);
+                    this.RequestedTheme = theme;
                 }
-                else if (theme == "Dark")
-                {
-                    elementTheme = ElementTheme.Dark;
-                }
-                
-                // 设置根页面的主题
-                if (App.CurrentWindow?.Content is FrameworkElement rootElement)
-                {
-                    rootElement.RequestedTheme = elementTheme;
-                }
-                
-                // 设置当前页面的主题
-                this.RequestedTheme = elementTheme;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"主题切换失败: {ex.Message}");
             }
         }
 
         private void AdminToggle_Toggled(object sender, RoutedEventArgs e)
         {
-            bool isOn = AdminToggle.IsOn;
-            _settingsService.SaveSetting("UseAdminPrivileges", isOn);
-        }
-        
-        private void StartupToggle_Toggled(object sender, RoutedEventArgs e)
-        {
-            bool isOn = StartupToggle.IsOn;
-            _settingsService.SaveSetting("StartWithWindows", isOn);
-            
-            // 如果关闭了开机自启动，同时也禁用最小化启动选项
-            MinStartToggle.IsEnabled = isOn;
-        }
-        
-        private void MinStartToggle_Toggled(object sender, RoutedEventArgs e)
-        {
-            bool isOn = MinStartToggle.IsOn;
-            _settingsService.SaveSetting("StartMinimized", isOn);
-        }
-        
-        private async void CheckUpdate_Click(object sender, RoutedEventArgs e)
-        {
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "检查更新",
-                Content = "当前已是最新版本: v1.0.0",
-                PrimaryButtonText = "确定",
-                XamlRoot = this.XamlRoot
-            };
-
-            await dialog.ShowAsync();
-        }
-        
-        private async void ResetSettings_Click(object sender, RoutedEventArgs e)
-        {
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "重置所有设置",
-                Content = "确定要将所有设置恢复到默认状态吗？",
-                PrimaryButtonText = "确定",
-                CloseButtonText = "取消",
-                XamlRoot = this.XamlRoot
-            };
-
-            var result = await dialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                _settingsService.ResetSettings();
-                LoadSettings();
-            }
-        }
-
-        /// <summary>
-        /// 管理收藏按钮点击
-        /// </summary>
-        private void ManageFavorites_Click(object sender, RoutedEventArgs e)
-        {
-            ShowMessage("收藏管理功能即将推出！");
-        }
-
-        /// <summary>
-        /// 导出收藏按钮点击
-        /// </summary>
-        private void ExportFavorites_Click(object sender, RoutedEventArgs e)
-        {
-            ShowMessage("导出收藏功能即将推出！");
-        }
-
-        /// <summary>
-        /// 导入收藏按钮点击
-        /// </summary>
-        private void ImportFavorites_Click(object sender, RoutedEventArgs e)
-        {
-            ShowMessage("导入收藏功能即将推出！");
-        }
-
-        /// <summary>
-        /// 清空对话历史按钮点击
-        /// </summary>
-        private void ClearChatHistory_Click(object sender, RoutedEventArgs e)
-        {
-            ShowMessage("清空对话历史功能即将推出！");
-        }
-
-        /// <summary>
-        /// 打开数据文件夹按钮点击
-        /// </summary>
-        private void OpenDataFolder_Click(object sender, RoutedEventArgs e)
-        {
             try
             {
-                var dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WinVault");
-                if (!Directory.Exists(dataPath))
+                if (AdminToggle != null)
                 {
-                    Directory.CreateDirectory(dataPath);
+                    bool isOn = AdminToggle.IsOn;
+                    _settingsService?.SaveSetting("UseAdminPrivileges", isOn);
                 }
-                System.Diagnostics.Process.Start("explorer.exe", dataPath);
             }
             catch (Exception ex)
             {
-                ShowMessage($"打开数据文件夹失败：{ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"管理员权限设置失败: {ex.Message}");
             }
         }
 
-        /// <summary>
-        /// 打开用户手册按钮点击
-        /// </summary>
-        private void OpenUserManual_Click(object sender, RoutedEventArgs e)
+        private void StartupToggle_Toggled(object sender, RoutedEventArgs e)
         {
-            ShowMessage("用户手册功能即将推出！");
+            try
+            {
+                if (StartupToggle != null && MinStartToggle != null)
+                {
+                    bool isOn = StartupToggle.IsOn;
+                    bool startMin = MinStartToggle.IsOn;
+                    try { StartupService.Instance.SetAutoStart(isOn, startMin); } catch { }
+                    MinStartToggle.IsEnabled = isOn;
+                }
+            }
+            catch (Exception ex)
+            {
+                try { LoggingService.Instance.Error(ex, "StartupToggle_Toggled failed"); } catch { }
+                System.Diagnostics.Debug.WriteLine($"开机自启动设置失败: {ex.Message}");
+            }
         }
 
-        /// <summary>
-        /// 反馈问题按钮点击
-        /// </summary>
-        private void ReportIssue_Click(object sender, RoutedEventArgs e)
+        private void MinStartToggle_Toggled(object sender, RoutedEventArgs e)
         {
-            ShowMessage("问题反馈功能即将推出！");
+            try
+            {
+                if (MinStartToggle != null && StartupToggle != null)
+                {
+                    bool isOn = MinStartToggle.IsOn;
+                    _settingsService?.SaveSetting("StartMinimized", isOn);
+                    if (StartupToggle.IsOn) { try { StartupService.Instance.SetAutoStart(true, isOn); } catch { } }
+                }
+            }
+            catch (Exception ex)
+            {
+                try { LoggingService.Instance.Error(ex, "MinStartToggle_Toggled failed"); } catch { }
+                System.Diagnostics.Debug.WriteLine($"最小化启动设置失败: {ex.Message}");
+            }
         }
 
+        private async void CheckUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ContentDialog dialog = new ContentDialog { Title = "检查更新", Content = "当前已是最新版本: v1.0.0", PrimaryButtonText = "确定", XamlRoot = this.XamlRoot };
+                await dialog.ShowAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"检查更新失败: {ex.Message}");
+            }
+        }
 
+        private async void ResetSettings_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ContentDialog dialog = new ContentDialog { Title = "重置所有设置", Content = "确定要将所有设置恢复到默认值吗？", PrimaryButtonText = "确定", CloseButtonText = "取消", XamlRoot = this.XamlRoot };
+                var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    _settingsService?.ResetSettings();
+                    LoadSettings();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"重置设置失败: {ex.Message}");
+            }
+        }
+
+        private void TelemetryToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            try 
+            { 
+                if (TelemetryToggle != null)
+                {
+                    TelemetryService.Instance.SetEnabled(TelemetryToggle.IsOn); 
+                }
+            } 
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"遥测设置失败: {ex.Message}");
+            }
+        }
+
+        private void DebugModeToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (DebugModeToggle != null)
+                {
+                    var level = DebugModeToggle.IsOn ? LogEventLevel.Debug : LogEventLevel.Information;
+                    LoggingService.Instance.SetMinimumLevel(level);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"调试模式设置失败: {ex.Message}");
+            }
+        }
+
+        private void LanguageCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (LanguageCombo?.SelectedItem is ComboBoxItem item)
+                {
+                    var tag = item.Tag?.ToString() ?? "system";
+                    if (tag == "system")
+                    {
+                        _settingsService?.SaveSetting(AppConstants.SettingsKeys.Language, "system");
+                    }
+                    else
+                    {
+                        _settingsService?.SaveSetting(AppConstants.SettingsKeys.Language, tag);
+                    }
+                    // 立即应用语言
+                    var langToApply = tag == "system" ? LocalizationService.Instance.GetCurrentLanguage() : tag;
+                    if (langToApply != null)
+                    {
+                        _ = LocalizationService.Instance.SwitchLanguage(langToApply);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"语言设置失败: {ex.Message}");
+            }
+        }
+
+        private void NavPaneToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (NavPaneToggle != null)
+                {
+                    _settingsService?.SaveSetting(AppConstants.SettingsKeys.NavPaneExpanded, NavPaneToggle.IsOn);
+                    // 立即作用到主窗口
+                    if (App.MainWindow is MainWindow mw && mw.NavViewControl != null)
+                    {
+                        mw.NavViewControl.IsPaneOpen = NavPaneToggle.IsOn;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"侧边栏设置失败: {ex.Message}");
+            }
+        }
+
+        private void StartPosCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (StartPosCombo?.SelectedItem is ComboBoxItem item)
+                {
+                    var tag = item.Tag?.ToString() ?? "Center";
+                    _settingsService?.SaveSetting(AppConstants.SettingsKeys.WindowStartPosition, tag);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"启动位置设置失败: {ex.Message}");
+            }
+        }
 
         private async void ShowMessage(string message)
         {
-            var dialog = new ContentDialog
+            try
             {
-                Title = "提示",
-                Content = message,
-                CloseButtonText = "确定",
-                XamlRoot = this.XamlRoot
-            };
-            await dialog.ShowAsync();
+                var dialog = new ContentDialog { Title = "提示", Content = message, CloseButtonText = "确定", XamlRoot = this.XamlRoot };
+                await dialog.ShowAsync();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"显示消息失败: {ex.Message}");
+            }
         }
     }
 }

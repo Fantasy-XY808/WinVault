@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Text;
@@ -23,6 +23,10 @@ namespace WinVault
         #region 私有字段 / Private Fields
 
         // 移除未使用的字段以避免警告
+        private bool _isInitialized = false;
+
+        // 对外公开的 NavView 引用，便于其他页面即时访问侧边栏
+        public NavigationView? NavViewControl => NavView;
 
         #endregion
 
@@ -119,22 +123,64 @@ namespace WinVault
                     return;
                 }
 
-                // 仅在 Windows 11 (build 22000+) 才调用 Window.Title，避免在 Windows 10 抛出 COMException 导致窗口被关闭
-                if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
+                // 防止重复初始化
+                if (_isInitialized)
                 {
-                    try
+                    System.Diagnostics.Debug.WriteLine("已经初始化过，跳过重复初始化");
+                    return;
+                }
+
+                // 恢复侧边栏展开
+                var settings = SettingsService.Instance;
+                bool navExpanded = settings.GetSetting(AppConstants.SettingsKeys.NavPaneExpanded, false);
+                if (NavView != null) NavView.IsPaneOpen = navExpanded;
+
+                // 恢复窗口大小/位置
+                var width = Math.Max(800, settings.GetSetting(AppConstants.SettingsKeys.WindowWidth, 1000));
+                var height = Math.Max(450, settings.GetSetting(AppConstants.SettingsKeys.WindowHeight, 650));
+                this.AppWindow.Resize(new Windows.Graphics.SizeInt32(width, height));
+
+                var startPos = settings.GetSetting<string>(AppConstants.SettingsKeys.WindowStartPosition, "Center") ?? "Center";
+                if (startPos == "Last")
+                {
+                    var x = settings.GetSetting(AppConstants.SettingsKeys.WindowX, -1);
+                    var y = settings.GetSetting(AppConstants.SettingsKeys.WindowY, -1);
+                    if (x >= 0 && y >= 0)
                     {
-                        if (this.AppWindow != null && string.IsNullOrEmpty(this.Title))
+                        this.AppWindow.Move(new Windows.Graphics.PointInt32(x, y));
+                    }
+                    else
+                    {
+                        CenterOnScreen();
+                    }
+                }
+                else
+                {
+                    CenterOnScreen();
+                }
+
+                // 设置窗口标题：优先使用 AppWindow.Title（Windows 10/11 都支持），同时在 Win11 上设置 Window.Title
+                try
+                {
+                    if (this.AppWindow != null)
+                    {
+                        this.AppWindow.Title = "WinVault";
+                    }
+
+                    // 仅在 Windows 11 (build 22000+) 再设置 Window.Title，避免在 Windows 10 抛出 COMException
+                    if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
+                    {
+                        if (string.IsNullOrEmpty(this.Title))
                         {
                             this.Title = "WinVault";
-                            System.Diagnostics.Debug.WriteLine("窗口标题设置完成");
                         }
                     }
-                    catch (Exception titleEx)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"设置标题时出错: {titleEx.Message}");
-                        // 忽略标题设置错误
-                    }
+                    System.Diagnostics.Debug.WriteLine("窗口标题设置完成");
+                }
+                catch (Exception titleEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"设置标题时出错: {titleEx.Message}");
+                    // 忽略标题设置错误
                 }
 
                 // 检查窗口是否仍然有效
@@ -149,7 +195,13 @@ namespace WinVault
                 {
                     if (NavView?.MenuItems?.Count > 0)
                     {
+                        // 设置初始选中项
                         NavView.SelectedItem = NavView.MenuItems[0];
+                        
+                        // 直接导航到主页
+                        NavigateToPage("home");
+                        
+                        _isInitialized = true;
                         System.Diagnostics.Debug.WriteLine("NavigationView初始化完成");
                     }
                     else
@@ -184,10 +236,37 @@ namespace WinVault
             }
         }
 
+        private void MainWindow_Closed(object sender, WindowEventArgs args)
+        {
+            try
+            {
+                var settings = SettingsService.Instance;
+                if (this.AppWindow != null)
+                {
+                    settings.SaveSetting(AppConstants.SettingsKeys.WindowWidth, (int)this.AppWindow.Size.Width);
+                    settings.SaveSetting(AppConstants.SettingsKeys.WindowHeight, (int)this.AppWindow.Size.Height);
+                    settings.SaveSetting(AppConstants.SettingsKeys.WindowX, (int)this.AppWindow.Position.X);
+                    settings.SaveSetting(AppConstants.SettingsKeys.WindowY, (int)this.AppWindow.Position.Y);
+                }
+                if (NavView != null)
+                {
+                    settings.SaveSetting(AppConstants.SettingsKeys.NavPaneExpanded, NavView.IsPaneOpen);
+                }
+            }
+            catch { }
+        }
+
         private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             try
             {
+                // 防止初始化时的重复导航
+                if (!_isInitialized)
+                {
+                    System.Diagnostics.Debug.WriteLine("跳过初始化时的导航事件");
+                    return;
+                }
+
                 if (args.SelectedItem is NavigationViewItem item)
                 {
                     var tag = item.Tag?.ToString();
@@ -211,12 +290,20 @@ namespace WinVault
                 if (ContentFrame?.CanGoBack == true)
                 {
                     ContentFrame.GoBack();
+                    System.Diagnostics.Debug.WriteLine("返回上一页");
                 }
-                System.Diagnostics.Debug.WriteLine("返回上一页");
+                else
+                {
+                    // 如果没有导航历史，返回主页
+                    NavigateToPage("home");
+                    System.Diagnostics.Debug.WriteLine("没有导航历史，返回主页");
+                }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"返回导航时出错: {ex.Message}");
+                // 出错时也返回主页
+                NavigateToPage("home");
             }
         }
 
@@ -245,7 +332,7 @@ namespace WinVault
             {
                 System.Diagnostics.Debug.WriteLine($"尝试导航到页面: {pageTag}");
 
-                Type pageType = pageTag switch
+                Type? pageType = pageTag switch
                 {
                     "home" => typeof(Pages.HomePage),
                     "hardware" => typeof(Pages.HardwarePage),
@@ -296,7 +383,7 @@ namespace WinVault
                         "commandquery" => "命令查询",
                         "quicksettings" => "快速设置",
                         "exetools" => "工具箱",
-                        "settings" => "设置",
+                        "settings" => "软件设置",
                         "about" => "关于",
                         _ => "未知页面"
                     };
@@ -381,5 +468,18 @@ namespace WinVault
         }
 
         #endregion
+
+        private void CenterOnScreen()
+        {
+            try
+            {
+                var displayArea = Microsoft.UI.Windowing.DisplayArea.GetFromWindowId(this.AppWindow.Id, Microsoft.UI.Windowing.DisplayAreaFallback.Nearest);
+                var workArea = displayArea.WorkArea;
+                int x = workArea.X + (workArea.Width - this.AppWindow.Size.Width) / 2;
+                int y = workArea.Y + (workArea.Height - this.AppWindow.Size.Height) / 2;
+                this.AppWindow.Move(new Windows.Graphics.PointInt32(x, y));
+            }
+            catch { }
+        }
     }
 }
