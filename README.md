@@ -152,6 +152,14 @@ WinVault/
 </a>
 <br />
 <sub>项目创始人 & 主要开发者</sub>
+<td align="center">
+<a href="https://github.com/Fantasy-XY808">
+<img src="https://github.com/Fantasy-XY808.png" width="100px;" alt="Fantasy-XY808"/>
+<br />
+<sub><b>Fantasy-XY808</b></sub>
+</a>
+<br />
+<sub>项目创始人 & 主要开发者</sub>
 </td>
 <td align="center">
 <a href="#">
