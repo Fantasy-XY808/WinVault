@@ -6,113 +6,314 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:viewmodels="using:WinVault.ViewModels"
+    xmlns:converters="using:WinVault.Converters"
+    xmlns:animations="using:CommunityToolkit.WinUI.UI.Animations"
     mc:Ignorable="d"
     Loaded="ExeToolsPage_Loaded">
 
-    <Grid>
+    <Page.Resources>
+        <!-- 转换器 -->
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+        
+        <!-- 工具卡片样式 -->
+        <Style x:Key="ToolCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="8"/>
+            <Setter Property="MinHeight" Value="160"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <CompositeTransform/>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
+        <!-- 分类标题样式 -->
+        <Style x:Key="CategoryTitleStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemAccentColor}"/>
+            <Setter Property="Margin" Value="0,0,0,16"/>
+        </Style>
+
+        <!-- 工具图标样式 -->
+        <Style x:Key="ToolIconStyle" TargetType="FontIcon">
+            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemAccentColor}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- 工具名称样式 -->
+        <Style x:Key="ToolNameStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorPrimaryBrush}"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="MaxLines" Value="1"/>
+        </Style>
+
+        <!-- 工具描述样式 -->
+        <Style x:Key="ToolDescriptionStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="LineHeight" Value="18"/>
+            <Setter Property="MaxLines" Value="3"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
+        <!-- 工具类型标签样式 -->
+        <Style x:Key="ToolTypeTagStyle" TargetType="Border">
+            <Setter Property="Background" Value="{ThemeResource SystemAccentColorLight2}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+
+        <!-- 分类卡片模板 -->
+        <DataTemplate x:Key="ToolCategoryTemplate" x:DataType="viewmodels:ToolCategory">
+            <StackPanel Margin="0,0,0,32">
+                <!-- 分类标题 -->
+                <StackPanel Orientation="Horizontal" Spacing="16" Margin="24,0,24,20">
+                    <FontIcon Glyph="{x:Bind CategoryIcon}" 
+                             FontSize="24" 
+                             Foreground="{ThemeResource SystemAccentColor}"/>
+                    <TextBlock Text="{x:Bind CategoryName}" 
+                              Style="{StaticResource CategoryTitleStyle}"/>
+                    <Border Background="{ThemeResource SystemAccentColorLight3}" 
+                           CornerRadius="12" 
+                           Padding="8,4">
+                        <TextBlock Text="{x:Bind ToolCount}" 
+                                  FontSize="12" 
+                                  FontWeight="SemiBold"
+                                  Foreground="{ThemeResource SystemAccentColorDark1}"/>
+                    </Border>
+                </StackPanel>
+
+                <!-- 工具网格 -->
+                <muxc:ItemsRepeater ItemsSource="{x:Bind Tools}" 
+                                   Margin="16,0">
+                    <muxc:ItemsRepeater.Layout>
+                        <muxc:UniformGridLayout
+                            MinItemWidth="300"
+                            MinItemHeight="160"
+                            MinRowSpacing="16"
+                            MinColumnSpacing="16"
+                            ItemsStretch="Fill"/>
+                    </muxc:ItemsRepeater.Layout>
+                    <muxc:ItemsRepeater.ItemTemplate>
+                        <DataTemplate x:DataType="viewmodels:ToolItem">
+                            <Border Style="{StaticResource ToolCardStyle}"
+                                   Tag="{x:Bind FilePath}"
+                                   DoubleTapped="ToolCard_DoubleTapped"
+                                   PointerEntered="ToolCard_PointerEntered"
+                                   PointerExited="ToolCard_PointerExited"
+                                   ToolTipService.ToolTip="{x:Bind Description}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!-- 工具头部：图标和名称 -->
+                                    <Grid Grid.Row="0" Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- 工具图标 -->
+                                        <Grid Grid.Column="0" Width="28" Height="28">
+                                            <!-- 自定义网络图标（网站favicon、软件官网图标等） -->
+                                            <Image Source="{x:Bind IconSource}"
+                                                   Visibility="{x:Bind UseCustomIcon, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                   Stretch="Uniform"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                            
+                                            <!-- 默认FontIcon（当没有自定义图标时显示） -->
+                                            <FontIcon Glyph="{x:Bind IconSource}"
+                                                     FontSize="24"
+                                                     Foreground="{ThemeResource SystemAccentColor}"
+                                                     Visibility="{x:Bind UseCustomIcon, Converter={StaticResource InverseBoolToVisibilityConverter}}"
+                                                     HorizontalAlignment="Center"
+                                                     VerticalAlignment="Center"/>
+                                        </Grid>
+
+                                        <!-- 工具名称 -->
+                                        <TextBlock Grid.Column="1"
+                                                  Text="{x:Bind Name}"
+                                                  Style="{StaticResource ToolNameStyle}"
+                                                  Margin="12,0,0,0"
+                                                  VerticalAlignment="Center"/>
+
+                                        <!-- 在线工具图标 -->
+                                        <FontIcon Grid.Column="2"
+                                                 Glyph="&#xE774;"
+                                                 FontSize="16"
+                                                 Foreground="{ThemeResource SystemAccentColor}"
+                                                 Visibility="{x:Bind IsWebLink}"/>
+                                    </Grid>
+
+                                    <!-- 工具描述 -->
+                                    <TextBlock Grid.Row="1"
+                                              Text="{x:Bind Description}"
+                                              Style="{StaticResource ToolDescriptionStyle}"/>
+
+                                    <!-- 工具类型标签 -->
+                                    <Border Grid.Row="2"
+                                           Style="{StaticResource ToolTypeTagStyle}"
+                                           Margin="0,12,0,0">
+                                        <TextBlock Text="{x:Bind ToolType}"
+                                                  FontSize="11"
+                                                  FontWeight="SemiBold"
+                                                  Foreground="{ThemeResource SystemAccentColorDark1}"/>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </muxc:ItemsRepeater.ItemTemplate>
+                </muxc:ItemsRepeater>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- 页面标题 -->
-        <TextBlock Grid.Row="0" Text="工具软件" Style="{StaticResource PageTitleStyle}"/>
+        <!-- 页面标题区域 -->
+        <Border Grid.Row="0" 
+               Background="{ThemeResource LayerFillColorDefaultBrush}"
+               BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+               BorderThickness="0,0,0,1"
+               Padding="32,24,32,20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-        <!-- 内容区域 -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-            <StackPanel Margin="20,0,20,20" Spacing="16" HorizontalAlignment="Stretch">
+                <!-- 标题和副标题 -->
+                <StackPanel Grid.Column="0" Spacing="4">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <FontIcon Glyph="&#xE7F0;" 
+                                 FontSize="28" 
+                                 Foreground="{ThemeResource SystemAccentColor}"/>
+                        <TextBlock Text="软件工具" 
+                                  FontSize="28" 
+                                  FontWeight="SemiBold"
+                                  Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+                                  VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="系统优化与硬件检测工具集合" 
+                              FontSize="14" 
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              Margin="44,0,0,0"/>
+                </StackPanel>
+
+                <!-- 统计信息 -->
+                <StackPanel Grid.Column="1" 
+                           Orientation="Horizontal" 
+                           Spacing="16" 
+                           VerticalAlignment="Center"
+                           x:Name="StatsPanel"
+                           Visibility="Collapsed">
+                    <Border Background="{ThemeResource SystemAccentColorLight3}"
+                           CornerRadius="16"
+                           Padding="12,8">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE8FD;" 
+                                     FontSize="16" 
+                                     Foreground="{ThemeResource SystemAccentColorDark1}"/>
+                            <TextBlock x:Name="CategoryCountText"
+                                      FontSize="14" 
+                                      FontWeight="SemiBold"
+                                      Foreground="{ThemeResource SystemAccentColorDark1}"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Background="{ThemeResource SystemAccentColorLight3}"
+                           CornerRadius="16"
+                           Padding="12,8">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <FontIcon Glyph="&#xE7F0;" 
+                                     FontSize="16" 
+                                     Foreground="{ThemeResource SystemAccentColorDark1}"/>
+                            <TextBlock x:Name="ToolCountText"
+                                      FontSize="14" 
+                                      FontWeight="SemiBold"
+                                      Foreground="{ThemeResource SystemAccentColorDark1}"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 主内容区域 -->
+        <ScrollViewer Grid.Row="1" 
+                     VerticalScrollBarVisibility="Auto" 
+                     HorizontalScrollBarVisibility="Disabled"
+                     ZoomMode="Disabled"
+                     Padding="0,24,0,32">
+            
+            <StackPanel x:Name="ContentPanel">
                 <!-- 工具分类列表 -->
-                <muxc:ItemsRepeater x:Name="ToolCategoriesRepeater">
-                    <muxc:ItemsRepeater.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Spacing="12" Margin="0,0,0,24">
-                                <!-- 分类标题 -->
-                                <TextBlock Text="{Binding CategoryName}" Style="{StaticResource SectionTitleStyle}"/>
-                                
-                                <!-- 工具列表 -->
-                                <muxc:ItemsRepeater ItemsSource="{Binding Tools}">
-                                    <muxc:ItemsRepeater.Layout>
-                                        <muxc:UniformGridLayout
-                                            MinItemWidth="200"
-                                            MinItemHeight="140"
-                                            MinRowSpacing="12"
-                                            MinColumnSpacing="12"
-                                            ItemsStretch="Fill"
-                                            MaximumRowsOrColumns="3" />
-                                    </muxc:ItemsRepeater.Layout>
-                                    <muxc:ItemsRepeater.ItemTemplate>
-                                        <DataTemplate>
-                                            <!-- 工具卡片 -->
-                                            <Grid Style="{StaticResource CardStyle}"
-                                                  MinHeight="140"
-                                                  DoubleTapped="ToolCard_DoubleTapped"
-                                                  Tag="{Binding FilePath}"
-                                                  ToolTipService.ToolTip="双击运行">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="Auto"/>
-                                                    <RowDefinition Height="*"/>
-                                                    <RowDefinition Height="Auto"/>
-                                                </Grid.RowDefinitions>
-                                                
-                                                <!-- 工具图标和名称 -->
-                                                <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
-                                                    <Image Width="32" Height="32" Source="{Binding IconSource}" 
-                                                           VerticalAlignment="Center" Visibility="{Binding IconVisibility}"/>
-                                                    <TextBlock Text="{Binding OriginalName}" 
-                                                               FontWeight="SemiBold" 
-                                                               TextWrapping="Wrap"
-                                                               FontSize="16"
-                                                               VerticalAlignment="Center"/>
-                                                </StackPanel>
-                                                
-                                                <!-- 工具描述 -->
-                                                <TextBlock Grid.Row="1" 
-                                                           Text="{Binding Description}" 
-                                                           TextWrapping="Wrap" 
-                                                           Opacity="0.8"
-                                                           FontSize="12"/>
-                                                
-                                                <!-- 版本和发布者信息 -->
-                                                <StackPanel Grid.Row="2" Spacing="4" Margin="0,8,0,0">
-                                                    <TextBlock Text="{Binding Version, TargetNullValue='', FallbackValue=''}" 
-                                                               Visibility="{Binding Version, Converter={StaticResource StringToVisibilityConverter}}"
-                                                               TextWrapping="NoWrap" 
-                                                               Opacity="0.7"
-                                                               FontSize="11"/>
-                                                    <TextBlock Text="{Binding Publisher, TargetNullValue='', FallbackValue=''}" 
-                                                               Visibility="{Binding Publisher, Converter={StaticResource StringToVisibilityConverter}}"
-                                                               TextWrapping="NoWrap" 
-                                                               Opacity="0.7"
-                                                               FontSize="11"/>
-                                                </StackPanel>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </muxc:ItemsRepeater.ItemTemplate>
-                                </muxc:ItemsRepeater>
-                            </StackPanel>
-                        </DataTemplate>
-                    </muxc:ItemsRepeater.ItemTemplate>
-                </muxc:ItemsRepeater>
-                
-                <!-- 当没有工具时显示的提示 -->
-                <TextBlock x:Name="NoToolsMessage" 
-                           Text="没有找到工具软件。请确保exetools文件夹中包含工具软件。" 
-                           TextWrapping="Wrap"
+                <muxc:ItemsRepeater x:Name="ToolCategoriesRepeater"
+                                   ItemTemplate="{StaticResource ToolCategoryTemplate}"/>
+
+                <!-- 空状态提示 -->
+                <StackPanel x:Name="EmptyStatePanel"
+                           Visibility="Collapsed"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           Margin="0,50,0,0"
-                           Visibility="Collapsed"/>
+                           Spacing="20"
+                           Margin="0,80,0,0">
+                    <FontIcon Glyph="&#xE7F0;" 
+                             FontSize="64" 
+                             Foreground="{ThemeResource TextFillColorTertiaryBrush}"/>
+                    <TextBlock Text="暂无可用工具" 
+                              FontSize="20" 
+                              FontWeight="SemiBold"
+                              Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                              HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="EmptyStateMessage"
+                              FontSize="14" 
+                              Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                              TextAlignment="Center"
+                              TextWrapping="Wrap"
+                              MaxWidth="400"/>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
-        
-        <!-- 加载指示器 -->
-        <ProgressRing x:Name="LoadingRing" 
-                      Grid.Row="1"
-                      IsActive="True" 
-                      Width="50" 
-                      Height="50"
-                      HorizontalAlignment="Center"
-                      VerticalAlignment="Center"/>
+
+        <!-- 加载状态 -->
+        <Border Grid.Row="1" 
+               Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+               x:Name="LoadingPanel"
+               Visibility="Visible">
+            <StackPanel HorizontalAlignment="Center" 
+                       VerticalAlignment="Center" 
+                       Spacing="16">
+                <muxc:ProgressRing IsActive="True" 
+                                  Width="40" 
+                                  Height="40"/>
+                <TextBlock Text="正在加载工具..." 
+                          FontSize="16" 
+                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+            </StackPanel>
+        </Border>
     </Grid>
-</Page> 
+</Page>

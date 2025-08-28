@@ -1,4 +1,4 @@
-﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -83,7 +83,7 @@ namespace WinVault.Pages
                         break;
                 }
 
-                var useAdminObj = _settingsService.GetSetting("UseAdminPrivileges", false);
+                var useAdminObj = _settingsService?.GetSetting("UseAdminPrivileges", false);
                 if (AdminToggle != null)
                     AdminToggle.IsOn = useAdminObj is bool useAdminValue && useAdminValue;
 
@@ -92,17 +92,21 @@ namespace WinVault.Pages
                 if (StartupToggle != null)
                     StartupToggle.IsOn = startWithWindows;
 
-                var startMinimizedObj = _settingsService.GetSetting("StartMinimized", false);
+                var startMinimizedObj = _settingsService?.GetSetting("StartMinimized", false);
                 if (MinStartToggle != null)
                     MinStartToggle.IsOn = startMinimizedObj is bool startMinimizedValue && startMinimizedValue;
 
                 // 高级开关
-                var telemetry = _settingsService.GetSetting(AppConstants.SettingsKeys.EnableAnalytics, true);
+                var telemetry = _settingsService?.GetSetting(AppConstants.SettingsKeys.EnableAnalytics, true);
                 if (TelemetryToggle != null)
+                {
                     TelemetryToggle.IsOn = telemetry is bool tv && tv;
+                }
                 var logLevel = _settingsService.GetSetting<string>(AppConstants.SettingsKeys.LogLevel, "Information") ?? "Information";
                 if (DebugModeToggle != null)
+                {
                     DebugModeToggle.IsOn = string.Equals(logLevel, "Debug", StringComparison.OrdinalIgnoreCase);
+                }
 
                 // 语言
                 var lang = _settingsService.GetSetting<string>(AppConstants.SettingsKeys.Language, "system") ?? "system";
