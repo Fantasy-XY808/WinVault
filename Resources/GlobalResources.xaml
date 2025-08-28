@@ -5,14 +5,12 @@
     xmlns:local="using:WinVault"
     xmlns:converters="using:WinVault.Converters">
 
-    <!-- 转换器 - 暂时注释掉以解决初始化问题 -->
-    <!--
+    <!-- 转换器 -->
     <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
     <converters:NumberFormatConverter x:Key="NumberFormatConverter"/>
     <converters:BooleanNegationConverter x:Key="BooleanNegationConverter"/>
     <converters:DateTimeFormatConverter x:Key="DateTimeFormatConverter"/>
     <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    -->
     
     <!-- 全局样式 -->
     <Style x:Key="PageTitleStyle" TargetType="TextBlock">
@@ -51,4 +49,4 @@
     <x:Double x:Key="WideMinWindowWidth">1000</x:Double>
     <x:Double x:Key="MediumMinWindowWidth">640</x:Double>
     <x:Double x:Key="NarrowMinWindowWidth">0</x:Double>
-</ResourceDictionary> 
+</ResourceDictionary>

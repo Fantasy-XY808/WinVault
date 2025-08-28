@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
+    <!--<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>-->
     <RootNamespace>WinVault</RootNamespace>
     <UseWinUI>true</UseWinUI>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -14,9 +14,10 @@
     <Platforms>x64</Platforms>
     <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
     <PlatformTarget>x64</PlatformTarget>
-    <AppxGeneratePriEnabled>true</AppxGeneratePriEnabled>
+    <!--<AppxGeneratePriEnabled>false</AppxGeneratePriEnabled>-->
     <!-- 关闭 XAML 自动“未处理异常即断点”的行为，避免 0x80000003 -->
     <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION</DefineConstants>
+    <Configurations>Debug;Release;ReleaseWithThrow</Configurations>
   </PropertyGroup>
 
   <!-- Debug：启用 MSIX 打包，方便 F5 调试部署 -->
@@ -41,7 +42,11 @@
     <!-- 启用详细错误信息 -->
     <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
     <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
+      <!-- 确保生成 XAML 资源索引（某些组合下需要显式声明） -->
+    <EnableDefaultXamlResourceIndexing>true</EnableDefaultXamlResourceIndexing>
+    <WindowsAppSdkUndockedRegFreeWinRTInitialize>true</WindowsAppSdkUndockedRegFreeWinRTInitialize>
   </PropertyGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
@@ -60,6 +65,7 @@
       <Generator></Generator>
     </PRIResource>
   </ItemGroup>
+
 
 
 

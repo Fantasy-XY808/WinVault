@@ -9,7 +9,6 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations">
     <Page.Resources>
         <converters:BooleanNegationConverter x:Key="BooleanNegationConverter" />
-        <converters:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         
         <!-- 动画资源 -->
         <Storyboard x:Name="FadeInStoryboard">

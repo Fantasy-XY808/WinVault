@@ -7,6 +7,7 @@
     <!-- 选择普通桌面启动配置 -->
     <ActiveDebugProfile>WinVault</ActiveDebugProfile>
     <DeployOptionalPackages>True</DeployOptionalPackages>
+    <_LastSelectedProfileId>E:\Projects\WinVault\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

@@ -1,4 +1,5 @@
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -26,7 +27,11 @@ namespace WinVault
                 {
                     var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
                     var logEntry = $"[{timestamp}] {message}{Environment.NewLine}";
-                    File.AppendAllText(LogFilePath, logEntry, Encoding.UTF8);
+                    if (!Directory.Exists(WinVault.Constants.AppConstants.LogPath))
+                    {
+                        Directory.CreateDirectory(WinVault.Constants.AppConstants.LogPath);
+                    }
+                    File.AppendAllText(WinVault.Constants.AppConstants.LogPath+LogFilePath, logEntry, Encoding.UTF8);
                 }
             }
             catch

@@ -1,4 +1,4 @@
-// ================================================================
+﻿// ================================================================
 // WinVault - Application Constants and Configuration
 // Copyright (c) 2024 WinVault Team. All rights reserved.
 // Licensed under the GPL-3.0 License.
@@ -133,8 +133,8 @@ namespace WinVault.Constants
         /// 应用信息文件名
         /// </summary>
         public const string AppInfoFileName = "appinfo.json";
-        
 
+        public const string LogPath = "./Logs/";
         
         /// <summary>
         /// 应用版本号

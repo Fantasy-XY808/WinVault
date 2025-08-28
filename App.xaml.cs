@@ -1,9 +1,11 @@
-using Microsoft.UI.Xaml;
-using System;
-using System.Runtime.InteropServices;
-using WinVault.Services;
-using System.Threading.Tasks;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.Windows.ApplicationModel.DynamicDependency;
 using Serilog.Events;
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using WinVault.Services;
 
 namespace WinVault
 {
@@ -185,6 +187,11 @@ namespace WinVault
                                 TrayService.Instance.HideToTray();
                                 System.Diagnostics.Debug.WriteLine("窗口已隐藏到托盘 Window hidden to tray");
                             }
+                            else
+                            {
+                                // 确保所有代码路径都有await操作，避免CS1998警告
+                                await Task.CompletedTask;
+                            }
                         }
                         catch (Exception activateEx)
                         {
@@ -339,7 +346,11 @@ namespace WinVault
                                $"类型 / Type: {e.Exception.GetType().Name}\n" +
                                $"消息 / Message: {e.Exception.Message}\n\n" +
                                $"{e.Exception.StackTrace}";
-                System.IO.File.WriteAllText("unhandled_exception.log", logMessage);
+                if (!Directory.Exists(WinVault.Constants.AppConstants.LogPath))
+                {
+                    Directory.CreateDirectory(WinVault.Constants.AppConstants.LogPath);
+                }
+                System.IO.File.WriteAllText(WinVault.Constants.AppConstants.LogPath+"unhandled_exception.log", logMessage);
                 
                 var logger = LoggingService.Instance;
                 logger?.Fatal(e.Exception, "应用程序发生未处理异常 Application unhandled exception occurred");
@@ -355,12 +366,15 @@ namespace WinVault
                                           $"类型 / Type: {handlerEx.GetType().Name}\n" +
                                           $"消息 / Message: {handlerEx.Message}\n\n" +
                                           $"{handlerEx.StackTrace}";
-                    System.IO.File.WriteAllText("exception_handler_error.log", handlerLogMessage);
+                    System.IO.File.WriteAllText("exception_handler_error.log", handlerLogMessage+"\n\n"+ handlerEx);
                 }
                 catch
                 {
                     // 忽略最后的日志写入错误
                 }
+#if RELEASE_THROW
+                throw; 
+#endif
             }
         }
 
