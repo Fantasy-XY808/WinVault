@@ -28,12 +28,7 @@
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=20&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&width=500&lines=专业的 Windows 优化工具;现代化的 WinUI3 界面;全部开源免费使用;长期持续更新维护;快速系统优化管理;超多实用免费软件" alt="Dynamic Typing" />
 </p>
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)  
-[![.NET](https://img.shields.io/badge/.NET-8.0-blue.svg)](https://dotnet.microsoft.com/download/dotnet/8.0)  
-[![WinUI](https://img.shields.io/badge/WinUI-3.0-brightgreen.svg)](https://docs.microsoft.com/en-us/windows/apps/winui/)  
-[![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-lightgrey.svg)](https://www.microsoft.com/windows/)  
-[![Release](https://img.shields.io/github/v/release/Fantasy-XY808/WinVault)](https://github.com/Fantasy-XY808/WinVault/releases)  
-[![Downloads](https://img.shields.io/github/downloads/Fantasy-XY808/WinVault/total)](https://github.com/Fantasy-XY808/WinVault/releases)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)  [![.NET](https://img.shields.io/badge/.NET-8.0-blue.svg)](https://dotnet.microsoft.com/download/dotnet/8.0)  [![WinUI](https://img.shields.io/badge/WinUI-3.0-brightgreen.svg)](https://docs.microsoft.com/en-us/windows/apps/winui/)  [![Platform](https://img.shields.io/badge/Platform-Windows%2010%2F11-lightgrey.svg)](https://www.microsoft.com/windows/)  [![Release](https://img.shields.io/github/v/release/Fantasy-XY808/WinVault)](https://github.com/Fantasy-XY808/WinVault/releases)  [![Downloads](https://img.shields.io/github/downloads/Fantasy-XY808/WinVault/total)](https://github.com/Fantasy-XY808/WinVault/releases)
 
 <img src="Assets/Square150x150Logo.scale-200.png" alt="WinVault Logo" width="100" height="100" style="margin-top:20px;"/>
 
@@ -172,15 +167,6 @@ WinVault/
 <sub>项目创始人 & 主要开发者</sub>
 </td>
 <td align="center">
-<a href="https://github.com/AngelShadow2017">
-<img src="https://github.com/AngelShadow2017.png" width="100" alt="AngelShadow2017"/>
-<br />
-<sub><b>AngelShadow2017</b></sub>
-</a>
-<br />
-<sub>项目前期维护者</sub>
-</td>
-<td align="center">
 <a href="#">
 <img src="https://pngimg.com/uploads/github/github_PNG20.png" width="100" alt="Contributor"/>
 <br />
@@ -199,8 +185,6 @@ WinVault/
 - **Microsoft** - 提供 WinUI 3 框架和 .NET 平台支持  
 - **开源社区** - 持续贡献技术支持与灵感  
 - **所有用户** - 反馈建议让项目不断完善  
-
-<img width="800" src="https://github-readme-activity-graph.vercel.app/graph?username={Fantasy_XY808}&theme=github-compact&hide_border=true&area=true" />
 
 </div>
 
